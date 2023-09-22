@@ -7,7 +7,7 @@ from django.db.models import EmailField
 from django.utils.translation import gettext_lazy as _
 
 # Manager
-from wifi_zones_api.users.managers import UserManager
+from wifi_zones_api.users.models.managers import UserManager
 
 
 class User(AbstractUser):
@@ -18,13 +18,12 @@ class User(AbstractUser):
     """
 
     email = EmailField(_("email address"), unique=True)
-    username = None  # type: ignore
 
     phone_regex = RegexValidator(
         regex=r"\+?1?\d{9,15}$",
         message="Phone number must be entered in the format: +999999999. Up to 15 digits allowed.",
     )
-    phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
+    phone_number = models.CharField(validators=[phone_regex], max_length=17, unique=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name", "password", "phone_number"]
@@ -32,6 +31,8 @@ class User(AbstractUser):
     is_verified = models.BooleanField(
         "verified", default=False, help_text="Set to true when the user have verified its email address."
     )
+
+    is_client = models.BooleanField(default=False)
 
     objects = UserManager()
 

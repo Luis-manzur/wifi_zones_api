@@ -7,7 +7,8 @@ from rest_framework.authtoken.views import obtain_auth_token
 # API URLS
 urlpatterns = [
     # DRF auth token
-    path("auth-token/", obtain_auth_token),
+    path('users/', include(('wifi_zones_api.users.urls', 'users'), namespace='users')),
+    path("users/login/", obtain_auth_token),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
     path(
         "docs/",
@@ -23,7 +24,7 @@ if settings.DEBUG:
         path(
             "400/",
             default_views.bad_request,
-            kwargs={"exception": Exception("Hellooo!")},
+            kwargs={"exception": Exception("Bad Request!")},
         ),
         path(
             "403/",

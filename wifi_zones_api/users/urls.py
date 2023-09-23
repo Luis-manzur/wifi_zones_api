@@ -1,14 +1,17 @@
-# from django.urls import path
-#
-# from wifi_zones_api.users.views import (
-#     user_detail_view,
-#     user_redirect_view,
-#     user_update_view,
-# )
-#
-# app_name = "users"
-# urlpatterns = [
-#     path("~redirect/", view=user_redirect_view, name="redirect"),
-#     path("~update/", view=user_update_view, name="update"),
-#     path("<int:pk>/", view=user_detail_view, name="detail"),
-# ]
+"""Users URLs."""
+
+# Django
+from django.urls import include, path
+
+# Django REST Framework
+from rest_framework.routers import DefaultRouter
+
+# Views
+from .views import users as user_views
+
+router = DefaultRouter()
+router.register(r"", user_views.UserViewSet, basename="users")
+
+urlpatterns = [
+    path("", include(router.urls)),
+]

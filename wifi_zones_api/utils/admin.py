@@ -6,7 +6,6 @@ from django.contrib.admin import site
 
 
 class WZAdminSite(admin.AdminSite):
-
     def __init__(self, *args, **kwargs):
         super(WZAdminSite, self).__init__(*args, **kwargs)
         self._registry.update(site._registry)  # PART 2

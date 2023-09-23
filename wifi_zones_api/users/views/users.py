@@ -1,17 +1,16 @@
 """Users views."""
 
 # Django REST Framework
-from rest_framework import mixins, status, viewsets
+from drf_spectacular.utils import extend_schema, inline_serializer
+from rest_framework import mixins, status, viewsets, serializers
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 # Models
 from wifi_zones_api.users.models import User
-
 # Permissions
 from wifi_zones_api.users.permissions import IsAccountOwner
-
 # Serializers
 from wifi_zones_api.users.serializers import (
     AccountVerificationSerializer,
@@ -20,6 +19,13 @@ from wifi_zones_api.users.serializers import (
     UserLoginSerializer,
 )
 from wifi_zones_api.users.serializers.profiles import ProfileModelSerializer
+
+verify_inline_serializer = inline_serializer(
+    name='VerifyInlineSerializer',
+    fields={
+        'message': serializers.CharField()
+    }
+)
 
 
 class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
@@ -53,6 +59,9 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
             permissions = [IsAuthenticated]
         return [p() for p in permissions]
 
+    @extend_schema(
+        responses={201: UserModelSerializer},
+    )
     @action(detail=False, methods=["post"])
     def signup(self, request):
         """User sign up."""
@@ -62,6 +71,9 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
         data = UserModelSerializer(user).data
         return Response(data, status=status.HTTP_201_CREATED)
 
+    @extend_schema(
+        responses={200: verify_inline_serializer},
+    )
     @action(detail=False, methods=["post"])
     def verify(self, request):
         """Account verification."""

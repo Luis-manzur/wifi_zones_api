@@ -8,9 +8,9 @@ from wifi_zones_api.utils.admin import admin_site
 
 
 class VenueAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'name', 'state', 'municipality')
-    search_fields = ('name',)
-    list_filter = ('state__name',)
+    list_display = ("pk", "name", "state", "municipality")
+    search_fields = ("name",)
+    list_filter = ("state__name",)
 
 
 admin_site.register(Location, VenueAdmin)

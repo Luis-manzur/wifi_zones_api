@@ -2,12 +2,10 @@
 
 # Utilities
 import jwt
-
 # Django
 from django.conf import settings
 from django.contrib.auth import password_validation, authenticate
 from django.core.validators import RegexValidator
-
 # Django REST Framework
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
@@ -15,10 +13,8 @@ from rest_framework.validators import UniqueValidator
 
 # Models
 from wifi_zones_api.users.models import User
-
 # Serializers
 from wifi_zones_api.users.serializers.profiles import ProfileModelSerializer
-
 # Tasks
 from wifi_zones_api.users.tasks import send_confirmation_email
 
@@ -57,7 +53,7 @@ class UserSignUpSerializer(serializers.Serializer):
         regex=r"\+?1?\d{9,15}$",
         message="Phone number must be entered in the format: +999999999. Up to 15 digits allowed.",
     )
-    phone_number = serializers.CharField(validators=[phone_regex])
+    phone_number = serializers.CharField(validators=[phone_regex, UniqueValidator(queryset=User.objects.all())])
 
     # Password
     password = serializers.CharField(min_length=8, max_length=64)

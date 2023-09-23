@@ -19,14 +19,16 @@ class Profile(WZModel):
     user = models.OneToOneField("users.User", related_name="profile", on_delete=models.CASCADE)
     birth_date = models.DateField(validators=[validate_birth_date])
     address = models.CharField(max_length=60)
-    state = models.ForeignKey('locations.State', on_delete=models.SET_NULL, null=True)
+    state = models.ForeignKey("locations.State", on_delete=models.SET_NULL, null=True)
     municipality = ChainedForeignKey(
-        'locations.Municipality',
+        "locations.Municipality",
         chained_field="state",
         chained_model_field="state",
         show_all=False,
         auto_choose=True,
-        on_delete=models.SET_NULL, null=True)
+        on_delete=models.SET_NULL,
+        null=True,
+    )
     gender = models.CharField(max_length=1, choices=GENDERS, default="O")
 
     def __str__(self):

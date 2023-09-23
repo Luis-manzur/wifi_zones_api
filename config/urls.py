@@ -12,6 +12,7 @@ urlpatterns = [
     re_path(r'^chaining/', include('smart_selects.urls')),
     # DRF auth token
     path('users/', include(('wifi_zones_api.users.urls', 'users'), namespace='users')),
+    path('locations/', include(('wifi_zones_api.locations.urls', 'locations'), namespace='locations')),
     path("users/login/", obtain_auth_token),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
     path(

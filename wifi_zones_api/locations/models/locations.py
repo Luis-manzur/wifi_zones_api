@@ -19,7 +19,8 @@ class Location(WZModel):
         chained_model_field="state",
         show_all=False,
         auto_choose=True,
-        on_delete=models.CASCADE)
+        on_delete=models.CASCADE,
+    )
     address = models.CharField(max_length=60)
 
     def __str__(self):

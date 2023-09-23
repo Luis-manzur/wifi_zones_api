@@ -8,11 +8,12 @@ from wifi_zones_api.utils.admin import admin_site
 
 # API URLS
 urlpatterns = [
-    path('admin/', admin_site.urls),
-    re_path(r'^chaining/', include('smart_selects.urls')),
+    path("admin/", admin_site.urls),
+    re_path(r"^chaining/", include("smart_selects.urls")),
     # DRF auth token
-    path('users/', include(('wifi_zones_api.users.urls', 'users'), namespace='users')),
-    path('locations/', include(('wifi_zones_api.locations.urls', 'locations'), namespace='locations')),
+    path("users/", include(("wifi_zones_api.users.urls", "users"), namespace="users")),
+    path("locations/", include(("wifi_zones_api.locations.urls", "locations"), namespace="locations")),
+    path("devices/", include(("wifi_zones_api.devices.urls", "devices"), namespace="devices")),
     path("users/login/", obtain_auth_token),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
     path(

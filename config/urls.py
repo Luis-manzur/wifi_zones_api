@@ -1,11 +1,15 @@
 from django.conf import settings
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.views import defaults as default_views
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
 
+from wifi_zones_api.utils.admin import admin_site
+
 # API URLS
 urlpatterns = [
+    path('admin/', admin_site.urls),
+    re_path(r'^chaining/', include('smart_selects.urls')),
     # DRF auth token
     path('users/', include(('wifi_zones_api.users.urls', 'users'), namespace='users')),
     path("users/login/", obtain_auth_token),

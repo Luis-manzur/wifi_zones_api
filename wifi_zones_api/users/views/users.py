@@ -9,8 +9,10 @@ from rest_framework.response import Response
 
 # Models
 from wifi_zones_api.users.models import User
+
 # Permissions
 from wifi_zones_api.users.permissions import IsAccountOwner
+
 # Serializers
 from wifi_zones_api.users.serializers import (
     AccountVerificationSerializer,
@@ -21,10 +23,7 @@ from wifi_zones_api.users.serializers import (
 from wifi_zones_api.users.serializers.profiles import ProfileModelSerializer
 
 verify_inline_serializer = inline_serializer(
-    name='VerifyInlineSerializer',
-    fields={
-        'message': serializers.CharField()
-    }
+    name="VerifyInlineSerializer", fields={"message": serializers.CharField()}
 )
 
 

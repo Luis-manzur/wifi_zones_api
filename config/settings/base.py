@@ -75,7 +75,7 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
-    'smart_selects',
+    "smart_selects",
 ]
 
 LOCAL_APPS = [
@@ -279,7 +279,7 @@ CELERY_TASK_SEND_SENT_EVENT = True
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework.authentication.TokenAuthentication",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup

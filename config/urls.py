@@ -14,6 +14,7 @@ urlpatterns = [
     path("users/", include(("wifi_zones_api.users.urls", "users"), namespace="users")),
     path("locations/", include(("wifi_zones_api.locations.urls", "locations"), namespace="locations")),
     path("devices/", include(("wifi_zones_api.devices.urls", "devices"), namespace="devices")),
+    path("subscription/", include(("wifi_zones_api.subscriptions.urls", "subscriptions"), namespace="subscriptions")),
     path("users/login/", obtain_auth_token),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
     path(

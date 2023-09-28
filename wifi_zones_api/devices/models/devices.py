@@ -1,6 +1,7 @@
 """Device model"""
 
 from django.core.validators import RegexValidator
+
 # Django
 from django.db import models
 
@@ -20,9 +21,6 @@ class Device(WZModel):
         regex=r"^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$",
         message="Enter a valid MAC address.",
     )
-    mac = models.CharField(
-        max_length=17,
-        validators=[mac_regex]
-    )
+    mac = models.CharField(max_length=17, validators=[mac_regex])
 
     user = models.ForeignKey("users.User", related_name="device", on_delete=models.CASCADE)

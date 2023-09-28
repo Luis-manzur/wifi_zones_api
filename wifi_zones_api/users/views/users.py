@@ -9,10 +9,8 @@ from rest_framework.response import Response
 
 # Models
 from wifi_zones_api.users.models import User
-
 # Permissions
 from wifi_zones_api.users.permissions import IsAccountOwner
-
 # Serializers
 from wifi_zones_api.users.serializers import (
     AccountVerificationSerializer,
@@ -33,7 +31,7 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
     """
 
     queryset = User.objects.filter(is_active=True, is_client=True)
-    lookup_field = "id"
+    lookup_field = "username"
 
     def get_serializer_class(self):
         """Assign serializer based on action"""

@@ -6,5 +6,5 @@ from .users import (
     UserLoginSerializer,
     PasswordUpdateSerializer,
     PasswordRecoverySerializer,
-    PasswordResetSerializer
+    PasswordResetSerializer,
 )

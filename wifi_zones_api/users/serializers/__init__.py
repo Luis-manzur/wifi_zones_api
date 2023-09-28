@@ -1,2 +1,9 @@
 from .profiles import ProfileModelSerializer
-from .users import AccountVerificationSerializer, UserModelSerializer, UserSignUpSerializer, UserLoginSerializer
+from .users import (
+    AccountVerificationSerializer,
+    UserModelSerializer,
+    UserSignUpSerializer,
+    UserLoginSerializer,
+    PasswordUpdateSerializer,
+    PasswordRecoverySerializer,
+)

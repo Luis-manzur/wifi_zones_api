@@ -2,10 +2,12 @@
 
 # Utilities
 import jwt
+
 # Django
 from django.conf import settings
 from django.contrib.auth import password_validation, authenticate
 from django.core.validators import RegexValidator
+
 # Django REST Framework
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
@@ -13,16 +15,20 @@ from rest_framework.validators import UniqueValidator
 
 # Models
 from wifi_zones_api.users.models import User, Profile
+
 # Serializers
 from wifi_zones_api.users.serializers.profiles import ProfileModelSerializer
+
 # Tasks
-from wifi_zones_api.users.tasks import send_confirmation_email
+from wifi_zones_api.users.tasks import send_confirmation_email, send_password_recovery_email
 
 
 class UserModelSerializer(serializers.ModelSerializer):
     """User model serializer."""
 
     profile = ProfileModelSerializer(read_only=True)
+    username = serializers.CharField(read_only=True)
+    email = serializers.CharField(read_only=True)
 
     class Meta:
         """Meta class."""
@@ -125,3 +131,32 @@ class UserLoginSerializer(serializers.Serializer):
         """Generate or retrieve new token."""
         token, created = Token.objects.get_or_create(user=self.context["user"])
         return self.context["user"], token.key
+
+
+class PasswordUpdateSerializer(serializers.Serializer):
+    current_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+    confirm_password = serializers.CharField(required=True)
+
+    def validate(self, data):
+        if data["new_password"] != data["confirm_password"]:
+            raise serializers.ValidationError("New passwords do not match.")
+        return data
+
+
+class PasswordRecoverySerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def validate(self, data):
+        try:
+            user = User.objects.get(email=data["email"])
+            self.context["user"] = user
+        except User.DoesNotExist:
+            raise serializers.ValidationError("No user found with the provided email.")
+        return data
+
+    def create(self, data):
+        user = self.context["user"]
+        send_password_recovery_email.delay(user.pk)
+
+        return True

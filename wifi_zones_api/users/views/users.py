@@ -23,6 +23,7 @@ from wifi_zones_api.users.serializers import (
     UserLoginSerializer,
     PasswordUpdateSerializer,
     PasswordRecoverySerializer,
+    PasswordResetSerializer,
 )
 from wifi_zones_api.users.serializers.profiles import ProfileModelSerializer
 
@@ -49,18 +50,20 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
             return AccountVerificationSerializer
         elif self.action == "profile":
             return ProfileModelSerializer
-        elif self.action == "reset_password":
+        elif self.action == "update_password":
             return PasswordUpdateSerializer
         elif self.action == "recover_password":
             return PasswordRecoverySerializer
+        elif self.action == "reset_password":
+            return PasswordResetSerializer
         else:
             return UserModelSerializer
 
     def get_permissions(self):
         """Assign permissions based on action."""
-        if self.action in ["signup", "verify", "login", "recover_password"]:
+        if self.action in ["signup", "verify", "login", "recover_password", "reset_password"]:
             permissions = [AllowAny]
-        elif self.action in ["retrieve", "update", "partial_update", "profile", "reset_password"]:
+        elif self.action in ["retrieve", "update", "partial_update", "profile", "update_password"]:
             permissions = [IsAuthenticated, IsAccountOwner]
         else:
             permissions = [IsAuthenticated]
@@ -114,11 +117,11 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
     @extend_schema(
         responses={200: verify_inline_serializer},
     )
-    @action(detail=True, methods=["post"], url_path="reset-password")
-    def reset_password(self, request, *args, **kwargs):
+    @action(detail=True, methods=["post"], url_path="update-password")
+    def update_password(self, request, *args, **kwargs):
         """User reset password"""
         serializer = self.get_serializer_class()(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             user: User = self.get_object()
             current_password = serializer.validated_data["current_password"]
             new_password = serializer.validated_data["new_password"]
@@ -134,16 +137,23 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
 
             return Response({"message": "Password updated successfully."}, status=200)
 
-        return Response({"message": "New passwords do not match."}, status=400)
-
     @extend_schema(
         responses={200: verify_inline_serializer},
     )
     @action(detail=False, methods=["post"], url_path="recover-password")
     def recover_password(self, request, *args, **kwargs):
         serializer = self.get_serializer_class()(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response({"message": "Recovery email sent successfully."}, status=200)
 
-        return Response({"message": "No user found with the provided email."}, status=400)
+    @extend_schema(
+        responses={200: verify_inline_serializer},
+    )
+    @action(detail=False, methods=["post"], url_path="reset-password")
+    def reset_password(self, request):
+        serializer = self.get_serializer_class()(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({"message": "Password has been reset successfully."})

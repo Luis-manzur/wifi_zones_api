@@ -134,6 +134,8 @@ class UserLoginSerializer(serializers.Serializer):
 
 
 class PasswordUpdateSerializer(serializers.Serializer):
+    """Password Update serializer"""
+
     current_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
     confirm_password = serializers.CharField(required=True)
@@ -141,10 +143,13 @@ class PasswordUpdateSerializer(serializers.Serializer):
     def validate(self, data):
         if data["new_password"] != data["confirm_password"]:
             raise serializers.ValidationError("New passwords do not match.")
+        password_validation.validate_password(data["new_password"])
         return data
 
 
 class PasswordRecoverySerializer(serializers.Serializer):
+    """Password recovery Serializer"""
+
     email = serializers.EmailField()
 
     def validate(self, data):
@@ -160,3 +165,42 @@ class PasswordRecoverySerializer(serializers.Serializer):
         send_password_recovery_email.delay(user.pk)
 
         return True
+
+
+class PasswordResetSerializer(serializers.Serializer):
+    """Password reset serializer"""
+
+    token = serializers.CharField()
+    password = serializers.CharField(min_length=8, max_length=64)
+    password_confirmation = serializers.CharField(min_length=8, max_length=64)
+
+    def validate(self, data):
+        """Verify passwords match."""
+        passwd = data["password"]
+        passwd_conf = data["password_confirmation"]
+        if passwd != passwd_conf:
+            raise serializers.ValidationError("Passwords don't match.")
+        password_validation.validate_password(passwd)
+        return data
+
+    def validate_token(self, data):
+        """Verify token is valid."""
+        try:
+            payload = jwt.decode(data, settings.SECRET_KEY, algorithms=["HS256"])
+        except jwt.ExpiredSignatureError:
+            raise serializers.ValidationError("Recovery link has expired.")
+        except jwt.PyJWTError:
+            raise serializers.ValidationError("Invalid token")
+        if payload["type"] != "password_recovery":
+            raise serializers.ValidationError("Invalid token")
+
+        self.context["payload"] = payload
+        return data
+
+    def create(self, data):
+        """Update user's password."""
+        payload = self.context["payload"]
+        user = User.objects.get(username=payload["user"])
+        user.set_password(data["password"])
+        user.save()
+        return data

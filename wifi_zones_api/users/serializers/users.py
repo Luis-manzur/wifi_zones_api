@@ -2,31 +2,21 @@
 
 # Utilities
 import jwt
-
 # Django
 from django.conf import settings
 from django.contrib.auth import password_validation, authenticate
 from django.core.validators import RegexValidator
-
 # Django REST Framework
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.validators import UniqueValidator
 
 # Models
-from wifi_zones_api.users.models import User
-
+from wifi_zones_api.users.models import User, Profile
 # Serializers
 from wifi_zones_api.users.serializers.profiles import ProfileModelSerializer
-
 # Tasks
 from wifi_zones_api.users.tasks import send_confirmation_email
-
-
-# Utilities
-
-
-# Simple-jwt
 
 
 class UserModelSerializer(serializers.ModelSerializer):
@@ -80,6 +70,8 @@ class UserSignUpSerializer(serializers.Serializer):
         """Handle user and profile creation."""
         data.pop("password_confirmation")
         user = User.objects.create_user(**data, is_verified=False, is_client=True)
+        profile = Profile(user=user)
+        profile.save()
         send_confirmation_email.delay(user_pk=user.pk)
         return user
 

@@ -17,8 +17,8 @@ class Profile(WZModel):
     GENDERS = [("F", "Feminine"), ("M", "Masculine"), ("O", "Other")]
 
     user = models.OneToOneField("users.User", related_name="profile", on_delete=models.CASCADE)
-    birth_date = models.DateField(validators=[validate_birth_date])
-    address = models.CharField(max_length=60)
+    birth_date = models.DateField(validators=[validate_birth_date], null=True)
+    address = models.CharField(max_length=60, null=True)
     state = models.ForeignKey("locations.State", on_delete=models.SET_NULL, null=True)
     municipality = ChainedForeignKey(
         "locations.Municipality",

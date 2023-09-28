@@ -1,14 +1,12 @@
 """States Views"""
 # Django filters
 from django_filters.rest_framework import DjangoFilterBackend
-
 # DRF
 from rest_framework import viewsets, mixins
 from rest_framework.filters import SearchFilter, OrderingFilter
 
 # Models
 from wifi_zones_api.locations.models.states import State
-
 # Serializer
 from wifi_zones_api.locations.serializers.states import StateChoiceModelSerializer
 

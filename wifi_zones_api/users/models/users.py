@@ -34,6 +34,8 @@ class User(AbstractUser):
 
     is_client = models.BooleanField(default=False)
 
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
     objects = UserManager()
 
     def __str__(self):

@@ -83,6 +83,7 @@ LOCAL_APPS = [
     "wifi_zones_api.locations",
     "wifi_zones_api.devices",
     "wifi_zones_api.subscriptions",
+    "wifi_zones_api.operations",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

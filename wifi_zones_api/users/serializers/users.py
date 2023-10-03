@@ -2,12 +2,10 @@
 
 # Utilities
 import jwt
-
 # Django
 from django.conf import settings
 from django.contrib.auth import password_validation, authenticate
 from django.core.validators import RegexValidator
-
 # Django REST Framework
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
@@ -15,10 +13,8 @@ from rest_framework.validators import UniqueValidator
 
 # Models
 from wifi_zones_api.users.models import User, Profile
-
 # Serializers
 from wifi_zones_api.users.serializers.profiles import ProfileModelSerializer
-
 # Tasks
 from wifi_zones_api.users.tasks import send_confirmation_email, send_password_recovery_email
 
@@ -34,7 +30,7 @@ class UserModelSerializer(serializers.ModelSerializer):
         """Meta class."""
 
         model = User
-        fields = ("first_name", "last_name", "email", "phone_number", "profile", "username")
+        fields = ("first_name", "last_name", "email", "phone_number", "profile", "username", "id_number")
 
 
 class UserSignUpSerializer(serializers.Serializer):
@@ -54,6 +50,14 @@ class UserSignUpSerializer(serializers.Serializer):
         message="Phone number must be entered in the format: +999999999. Up to 15 digits allowed.",
     )
     phone_number = serializers.CharField(validators=[phone_regex, UniqueValidator(queryset=User.objects.all())])
+
+    # Id number
+    id_number_regex = RegexValidator(
+        regex=r'^[V|E|J|P|G][0-9]{8}$',
+        message="Invalid CI."
+
+    )
+    id_number = serializers.CharField(validators=[id_number_regex, UniqueValidator(queryset=User.objects.all())])
 
     # Password
     password = serializers.CharField(min_length=8, max_length=64)

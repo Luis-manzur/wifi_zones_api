@@ -12,8 +12,7 @@ from wifi_zones_api.utils.models import WZModel
 class Recharge(WZModel):
     """Recharge Model."""
 
-    operation = models.ForeignKey("operations.Operation", related_name="recharge",
-                                  on_delete=models.CASCADE)
+    operation = models.ForeignKey("operations.Operation", related_name="recharge", on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(1.00)])
 
     PAYMENT_METHOD = [
@@ -26,7 +25,9 @@ class Recharge(WZModel):
 
 class PagoMovil(WZModel):
     recharge = models.ForeignKey(
-        "operations.Recharge", related_name="pago_movil", on_delete=models.DO_NOTHING,
+        "operations.Recharge",
+        related_name="pago_movil",
+        on_delete=models.DO_NOTHING,
     )
     operation_time_stamp = models.DateTimeField()
     reference_number = models.CharField(max_length=10, unique=True)

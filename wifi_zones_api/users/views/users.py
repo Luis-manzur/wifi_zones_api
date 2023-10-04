@@ -1,7 +1,6 @@
 """Users views."""
 # Django
 from django.contrib.auth import update_session_auth_hash
-
 # Django REST Framework
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import mixins, status, viewsets, serializers
@@ -11,10 +10,8 @@ from rest_framework.response import Response
 
 # Models
 from wifi_zones_api.users.models import User
-
 # Permissions
 from wifi_zones_api.users.permissions import IsAccountOwner
-
 # Serializers
 from wifi_zones_api.users.serializers import (
     AccountVerificationSerializer,
@@ -27,7 +24,7 @@ from wifi_zones_api.users.serializers import (
 )
 from wifi_zones_api.users.serializers.profiles import ProfileModelSerializer
 
-verify_inline_serializer = inline_serializer(
+confirmation_inline_serializer = inline_serializer(
     name="VerifyInlineSerializer", fields={"message": serializers.CharField()}
 )
 
@@ -82,7 +79,7 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
         return Response(data, status=status.HTTP_201_CREATED)
 
     @extend_schema(
-        responses={200: verify_inline_serializer},
+        responses={200: confirmation_inline_serializer},
     )
     @action(detail=False, methods=["post"])
     def verify(self, request):
@@ -115,7 +112,7 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
         return Response(data, status=status.HTTP_201_CREATED)
 
     @extend_schema(
-        responses={200: verify_inline_serializer},
+        responses={200: confirmation_inline_serializer},
     )
     @action(detail=True, methods=["post"], url_path="update-password")
     def update_password(self, request, *args, **kwargs):
@@ -138,7 +135,7 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
             return Response({"message": "Password updated successfully."}, status=200)
 
     @extend_schema(
-        responses={200: verify_inline_serializer},
+        responses={200: confirmation_inline_serializer},
     )
     @action(detail=False, methods=["post"], url_path="recover-password")
     def recover_password(self, request, *args, **kwargs):
@@ -148,7 +145,7 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
             return Response({"message": "Recovery email sent successfully."}, status=200)
 
     @extend_schema(
-        responses={200: verify_inline_serializer},
+        responses={200: confirmation_inline_serializer},
     )
     @action(detail=False, methods=["post"], url_path="reset-password")
     def reset_password(self, request):

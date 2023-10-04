@@ -1,13 +1,16 @@
 """Recharges serializers"""
-
+import json
 # Utils
 from datetime import datetime
 
+# Django
+from django.core.exceptions import ObjectDoesNotExist
 # Django REST Framework
 from rest_framework import serializers
 
 # Models
-from wifi_zones_api.operations.models import Recharge, PagoMovil
+from wifi_zones_api.operations.models import Recharge, PagoMovil, Operation
+from wifi_zones_api.users.models import User
 # Utilities
 from wifi_zones_api.utils.consts import BANKS
 
@@ -42,6 +45,14 @@ class PagoMovilCreateModelSerializer(serializers.Serializer):
     Amount = serializers.DecimalField(max_digits=10, decimal_places=2)
     Refpk = serializers.CharField()
 
+    def validate_PhoneOrig(self, data):
+        try:
+            user = User.objects.get(phone_number=data)
+            self.context["user"] = user
+        except ObjectDoesNotExist:
+            raise serializers.ValidationError('No user associated with that phone number')
+        return data
+
     def create(self, validated_data):
         # Extract the data from the serializer
         banco_orig = validated_data["BancoOrig"]
@@ -65,10 +76,25 @@ class PagoMovilCreateModelSerializer(serializers.Serializer):
         pago_movil.description = descripcion
         pago_movil.ref_pk = ref_pk
         pago_movil.bank = banco_orig
-        pago_movil.recharge.amount = amount
-        pago_movil.recharge.payment_method = "PM"
+        pago_movil.request_body = json.dumps(self.initial_data)
+
+        # Create the recharge instance
+        recharge = Recharge()
+        recharge.amount = amount
+        recharge.payment_method = "PM"
+
+        # Create the Operation Instance
+        operation = Operation()
+        operation.user = self.context["user"]
+        operation.operation_type = "R"
+        operation.prev_balance = operation.user.balance
+        operation.post_balance = operation.user.balance + amount
 
         # Save the PagoMovil instance
+        operation.save()
+        recharge.operation = operation
+        recharge.save()
+        pago_movil.recharge = recharge
         pago_movil.save()
 
         return validated_data

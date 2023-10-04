@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from wifi_zones_api.operations.models import Payment, Operation
+
 # Models
 from wifi_zones_api.subscriptions.models import Subscription
 

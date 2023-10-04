@@ -5,6 +5,7 @@ from rest_framework import serializers
 
 # Models
 from wifi_zones_api.subscriptions.models import Subscription, Plan
+
 # Serializers
 from wifi_zones_api.subscriptions.serializers.plans import PlanModelSerializer
 
@@ -19,13 +20,12 @@ class SubscriptionCreateModelSerializer(serializers.ModelSerializer):
         fields = ["user", "plan", "billing_period"]
 
     def validate(self, data):
-        existing_subscription = Subscription.objects.filter(
-            user=data["user"], status="active"
-        ).exists()
+        existing_subscription = Subscription.objects.filter(user=data["user"], status="active").exists()
 
         if existing_subscription:
             raise serializers.ValidationError(
-                "User already has an active subscription within the specified date range.")
+                "User already has an active subscription within the specified date range."
+            )
 
         plan: Plan = data["plan"]
         user = data["user"]

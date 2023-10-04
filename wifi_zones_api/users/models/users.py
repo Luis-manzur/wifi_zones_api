@@ -25,6 +25,13 @@ class User(AbstractUser):
     )
     phone_number = models.CharField(validators=[phone_regex], max_length=17, unique=True)
 
+    id_number_regex = RegexValidator(
+        regex=r'^[V|E|J|P|G][0-9]{8}$',
+        message="Invalid CI."
+
+    )
+    id_number = models.CharField(validators=[id_number_regex], max_length=9, unique=True)
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name", "password", "phone_number"]
 

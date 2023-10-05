@@ -23,7 +23,7 @@ class User(AbstractUser):
         regex=r"\+?1?\d{9,15}$",
         message="Phone number must be entered in the format: +999999999. Up to 15 digits allowed.",
     )
-    phone_number = models.CharField(validators=[phone_regex], max_length=17, unique=True)
+    phone_number = models.CharField(validators=[phone_regex], max_length=17, unique=True, db_index=True)
 
     id_number_regex = RegexValidator(regex=r"^[V|E|J|P|G][0-9]{8}$", message="Invalid CI.")
     id_number = models.CharField(validators=[id_number_regex], max_length=9, unique=True)
@@ -40,6 +40,11 @@ class User(AbstractUser):
     balance = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     objects = UserManager()
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["phone_number"]),
+        ]
 
     def __str__(self):
         """Return username."""

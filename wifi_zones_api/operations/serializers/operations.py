@@ -4,7 +4,7 @@
 from rest_framework import serializers
 
 # Model
-from wifi_zones_api.operations.models import Operation, Recharge
+from wifi_zones_api.operations.models import Operation, Recharge, Payment
 
 
 class OperationListModelSerializer(serializers.ModelSerializer):
@@ -21,4 +21,7 @@ class OperationListModelSerializer(serializers.ModelSerializer):
             recharge = Recharge.objects.get(operation=obj.pk)
             return recharge.amount
         elif obj.operation_type == "P":
-            return 0
+            payment = Payment.objects.get(operation=obj.pk)
+            return payment.amount
+
+        return 0

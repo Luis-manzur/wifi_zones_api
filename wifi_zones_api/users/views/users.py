@@ -1,7 +1,6 @@
 """Users views."""
 # Django
 from django.contrib.auth import update_session_auth_hash
-
 # Django REST Framework
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import mixins, status, viewsets, serializers
@@ -11,10 +10,8 @@ from rest_framework.response import Response
 
 # Models
 from wifi_zones_api.users.models import User
-
 # Permissions
 from wifi_zones_api.users.permissions import IsAccountOwner
-
 # Serializers
 from wifi_zones_api.users.serializers import (
     AccountVerificationSerializer,
@@ -24,6 +21,7 @@ from wifi_zones_api.users.serializers import (
     PasswordUpdateSerializer,
     PasswordRecoverySerializer,
     PasswordResetSerializer,
+    UserBalanceSerializer
 )
 from wifi_zones_api.users.serializers.profiles import ProfileModelSerializer
 
@@ -56,6 +54,8 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
             return PasswordRecoverySerializer
         elif self.action == "reset_password":
             return PasswordResetSerializer
+        elif self.action == "get_balance":
+            return UserBalanceSerializer
         else:
             return UserModelSerializer
 
@@ -63,7 +63,7 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
         """Assign permissions based on action."""
         if self.action in ["signup", "verify", "login", "recover_password", "reset_password"]:
             permissions = [AllowAny]
-        elif self.action in ["retrieve", "update", "partial_update", "profile", "update_password"]:
+        elif self.action in ["retrieve", "update", "partial_update", "profile", "update_password", "get_balance"]:
             permissions = [IsAuthenticated, IsAccountOwner]
         else:
             permissions = [IsAuthenticated]
@@ -157,3 +157,8 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
         serializer.save()
 
         return Response({"message": "Password has been reset successfully."})
+
+    @action(detail=True, methods=["get"], url_path="get-balance")
+    def get_balance(self, request, *args, **kwargs):
+        response = super(UserViewSet, self).retrieve(request, *args, **kwargs)
+        return response

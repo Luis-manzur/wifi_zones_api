@@ -7,4 +7,5 @@ from .users import (
     PasswordUpdateSerializer,
     PasswordRecoverySerializer,
     PasswordResetSerializer,
+    UserBalanceSerializer,
 )

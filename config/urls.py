@@ -8,27 +8,29 @@ from rest_framework.authtoken.views import obtain_auth_token
 from wifi_zones_api.utils.admin import admin_site
 
 # API URLS
-urlpatterns = [
-                  path("admin/", admin_site.urls),
-                  re_path(r"^chaining/", include("smart_selects.urls")),
-                  # DRF auth token
-                  path("users/", include(("wifi_zones_api.users.urls", "users"), namespace="users")),
-                  path("locations/", include(("wifi_zones_api.locations.urls", "locations"), namespace="locations")),
-                  path("devices/", include(("wifi_zones_api.devices.urls", "devices"), namespace="devices")),
-                  path("subscription/",
-                       include(("wifi_zones_api.subscriptions.urls", "subscriptions"), namespace="subscriptions")),
-                  path("operations/",
-                       include(("wifi_zones_api.operations.urls", "operations"), namespace="operations")),
-                  path("users/login/", obtain_auth_token),
-                  path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
-                  path(
-                      "docs/",
-                      SpectacularSwaggerView.as_view(url_name="api-schema"),
-                      name="api-docs",
-                  ),
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
-              static(settings.STATIC_URL,
-                     document_root=settings.STATIC_ROOT)
+urlpatterns = (
+    [
+        path("admin/", admin_site.urls),
+        re_path(r"^chaining/", include("smart_selects.urls")),
+        # DRF auth token
+        path("users/", include(("wifi_zones_api.users.urls", "users"), namespace="users")),
+        path("locations/", include(("wifi_zones_api.locations.urls", "locations"), namespace="locations")),
+        path("devices/", include(("wifi_zones_api.devices.urls", "devices"), namespace="devices")),
+        path(
+            "subscription/", include(("wifi_zones_api.subscriptions.urls", "subscriptions"), namespace="subscriptions")
+        ),
+        path("operations/", include(("wifi_zones_api.operations.urls", "operations"), namespace="operations")),
+        path("users/login/", obtain_auth_token),
+        path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
+        path(
+            "docs/",
+            SpectacularSwaggerView.as_view(url_name="api-schema"),
+            name="api-docs",
+        ),
+    ]
+    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+)
 
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit

@@ -1,6 +1,7 @@
 """Users views."""
 # Django
 from django.contrib.auth import update_session_auth_hash
+
 # Django REST Framework
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import mixins, status, viewsets, serializers
@@ -10,8 +11,10 @@ from rest_framework.response import Response
 
 # Models
 from wifi_zones_api.users.models import User
+
 # Permissions
 from wifi_zones_api.users.permissions import IsAccountOwner
+
 # Serializers
 from wifi_zones_api.users.serializers import (
     AccountVerificationSerializer,
@@ -21,7 +24,7 @@ from wifi_zones_api.users.serializers import (
     PasswordUpdateSerializer,
     PasswordRecoverySerializer,
     PasswordResetSerializer,
-    UserBalanceSerializer
+    UserBalanceSerializer,
 )
 from wifi_zones_api.users.serializers.profiles import ProfileModelSerializer
 

@@ -1,7 +1,6 @@
 """Devices Views"""
 # Django filters
 from django_filters.rest_framework import DjangoFilterBackend
-
 # DRF
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -9,10 +8,8 @@ from rest_framework.permissions import IsAuthenticated
 
 # Models
 from wifi_zones_api.devices.models import Device
-
 # Serializer
 from wifi_zones_api.devices.serializers.devices import DeviceModelSerializer, DeviceListModelSerializer
-
 # Utilities
 from wifi_zones_api.utils.permissions import IsObjectOwner
 
@@ -21,6 +18,7 @@ class DeviceViewSet(viewsets.ModelViewSet):
     """Device view set.
     Handle list and retrieve.
     """
+    pagination_class = None
 
     queryset = Device.objects.all()
 

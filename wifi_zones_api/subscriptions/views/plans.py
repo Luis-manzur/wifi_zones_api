@@ -1,14 +1,12 @@
 """Plans views"""
 # Django filters
 from django_filters.rest_framework import DjangoFilterBackend
-
 # DRF
 from rest_framework import viewsets, mixins
 from rest_framework.filters import SearchFilter, OrderingFilter
 
 # Models
 from wifi_zones_api.subscriptions.models import Plan
-
 # Serializer
 from wifi_zones_api.subscriptions.serializers.plans import PlanModelSerializer, PlanListModelSerializer
 
@@ -17,6 +15,7 @@ class PlanViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.Lis
     """Plan view set.
     Handle list and retrieve.
     """
+    pagination_class = None
 
     queryset = Plan.objects.all()
 

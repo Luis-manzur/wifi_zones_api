@@ -12,7 +12,7 @@ from wifi_zones_api.utils.models import WZModel
 
 class Location(WZModel):
     name = models.CharField(max_length=60)
-    image = models.ImageField(upload_to='locations/', null=True)
+    image = models.ImageField(upload_to="locations/", null=True)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
     municipality = ChainedForeignKey(
         Municipality,

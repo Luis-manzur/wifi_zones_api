@@ -21,7 +21,7 @@ class PlanViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.Lis
     def get_serializer_class(self):
         if self.action == "list":
             return PlanListModelSerializer
-        elif self.action == "get":
+        elif self.action == "retrieve":
             return PlanModelSerializer
 
     filter_backends = (OrderingFilter, SearchFilter, DjangoFilterBackend)

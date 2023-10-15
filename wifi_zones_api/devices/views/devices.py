@@ -18,7 +18,6 @@ class DeviceViewSet(viewsets.ModelViewSet):
     """Device view set.
     Handle list and retrieve.
     """
-    pagination_class = None
 
     queryset = Device.objects.all()
 

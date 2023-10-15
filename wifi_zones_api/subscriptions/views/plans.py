@@ -15,7 +15,6 @@ class PlanViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.Lis
     """Plan view set.
     Handle list and retrieve.
     """
-    pagination_class = None
 
     queryset = Plan.objects.all()
 

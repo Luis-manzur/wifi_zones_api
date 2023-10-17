@@ -2,12 +2,11 @@
 
 # Utilities
 import jwt
-
 # Django
 from django.conf import settings
 from django.contrib.auth import password_validation, authenticate
 from django.core.validators import RegexValidator
-
+from django.utils.translation import gettext_lazy as _
 # Django REST Framework
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
@@ -15,10 +14,8 @@ from rest_framework.validators import UniqueValidator
 
 # Models
 from wifi_zones_api.users.models import User, Profile
-
 # Serializers
 from wifi_zones_api.users.serializers.profiles import ProfileModelSerializer
-
 # Tasks
 from wifi_zones_api.users.tasks import send_confirmation_email, send_password_recovery_email
 
@@ -51,12 +48,12 @@ class UserSignUpSerializer(serializers.Serializer):
     # Phone number
     phone_regex = RegexValidator(
         regex=r"\+?1?\d{9,15}$",
-        message="Phone number must be entered in the format: +999999999. Up to 15 digits allowed.",
+        message=_("Phone number must be entered in the format: +999999999. Up to 15 digits allowed."),
     )
     phone_number = serializers.CharField(validators=[phone_regex, UniqueValidator(queryset=User.objects.all())])
 
     # Id number
-    id_number_regex = RegexValidator(regex=r"^[V|E|J|P|G][0-9]{8}$", message="Invalid CI.")
+    id_number_regex = RegexValidator(regex=r"^[V|E|J|P|G][0-9]{8}$", message=_("Invalid CI."))
     id_number = serializers.CharField(validators=[id_number_regex, UniqueValidator(queryset=User.objects.all())])
 
     # Password
@@ -72,7 +69,7 @@ class UserSignUpSerializer(serializers.Serializer):
         passwd = data["password"]
         passwd_conf = data["password_confirmation"]
         if passwd != passwd_conf:
-            raise serializers.ValidationError("Passwords don't match.")
+            raise serializers.ValidationError(_("Passwords don't match."))
         password_validation.validate_password(passwd)
         return data
 
@@ -96,11 +93,11 @@ class AccountVerificationSerializer(serializers.Serializer):
         try:
             payload = jwt.decode(data, settings.SECRET_KEY, algorithms=["HS256"])
         except jwt.ExpiredSignatureError:
-            raise serializers.ValidationError("Verification link has expired.")
+            raise serializers.ValidationError(_("Verification link has expired."))
         except jwt.PyJWTError:
-            raise serializers.ValidationError("Invalid token")
+            raise serializers.ValidationError(_("Invalid token"))
         if payload["type"] != "email_confirmation":
-            raise serializers.ValidationError("Invalid token")
+            raise serializers.ValidationError(_("Invalid token"))
 
         self.context["payload"] = payload
         return data
@@ -125,9 +122,9 @@ class UserLoginSerializer(serializers.Serializer):
         """Check credentials."""
         user = authenticate(username=data["email"], password=data["password"])
         if not user:
-            raise serializers.ValidationError("Invalid credentials")
+            raise serializers.ValidationError(_("Invalid credentials"))
         if not user.is_verified:
-            raise serializers.ValidationError("Account is not active yet :(")
+            raise serializers.ValidationError(_("Account is not active yet :("))
         self.context["user"] = user
         return data
 
@@ -146,7 +143,7 @@ class PasswordUpdateSerializer(serializers.Serializer):
 
     def validate(self, data):
         if data["new_password"] != data["confirm_password"]:
-            raise serializers.ValidationError("New passwords do not match.")
+            raise serializers.ValidationError(_("New passwords do not match."))
         password_validation.validate_password(data["new_password"])
         return data
 
@@ -161,7 +158,7 @@ class PasswordRecoverySerializer(serializers.Serializer):
             user = User.objects.get(email=data["email"])
             self.context["user"] = user
         except User.DoesNotExist:
-            raise serializers.ValidationError("No user found with the provided email.")
+            raise serializers.ValidationError(_("No user found with the provided email."))
         return data
 
     def create(self, data):
@@ -183,7 +180,7 @@ class PasswordResetSerializer(serializers.Serializer):
         passwd = data["password"]
         passwd_conf = data["password_confirmation"]
         if passwd != passwd_conf:
-            raise serializers.ValidationError("Passwords don't match.")
+            raise serializers.ValidationError(_("Passwords don't match."))
         password_validation.validate_password(passwd)
         return data
 
@@ -192,11 +189,11 @@ class PasswordResetSerializer(serializers.Serializer):
         try:
             payload = jwt.decode(data, settings.SECRET_KEY, algorithms=["HS256"])
         except jwt.ExpiredSignatureError:
-            raise serializers.ValidationError("Recovery link has expired.")
+            raise serializers.ValidationError(_("Recovery link has expired."))
         except jwt.PyJWTError:
-            raise serializers.ValidationError("Invalid token")
+            raise serializers.ValidationError(_("Invalid token"))
         if payload["type"] != "password_recovery":
-            raise serializers.ValidationError("Invalid token")
+            raise serializers.ValidationError(_("Invalid token"))
 
         self.context["payload"] = payload
         return data

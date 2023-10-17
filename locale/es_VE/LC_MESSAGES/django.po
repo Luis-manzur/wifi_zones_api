@@ -1,0 +1,158 @@
+#Traducciones para el proyecto de zonas WiFi
+#Copyright (C) 2023 Luis Ignacio Manzur Macero
+#Luis Ignacio Manzur Macero luismanzur91@outlook.com, 2023.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-16 20:23-0400\n"
+"Language: es-VE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "This field is required."
+msgstr "Este campo es obligatorio."
+
+msgid "This field must be unique."
+msgstr "Este campo debe ser único."
+
+msgid "The value of this field must be an integer."
+msgstr "El valor de este campo debe ser un número entero."
+
+msgid "This field only accepts binary values."
+msgstr "Este campo solo admite valores binarios."
+
+msgid "This field must be true or false."
+msgstr "Este campo debe ser verdadero o falso."
+
+msgid "Ensure this field has no more than {max_length} characters."
+msgstr "Asegúrate de que este campo tenga menos de {max_length} caracteres."
+
+msgid "Enter a valid date."
+msgstr "Ingresa una fecha válida."
+
+msgid "Enter a valid date and time."
+msgstr "Ingresa una fecha y hora válidas."
+
+msgid "Enter a valid decimal number."
+msgstr "Ingresa un número decimal válido."
+
+msgid "Enter a valid duration."
+msgstr "Ingresa una duración válida."
+
+msgid "Enter a valid email address."
+msgstr "Ingresa una dirección de correo electrónico válida."
+
+msgid "This field must be a valid file."
+msgstr "Debe ser un archivo válido."
+
+msgid "Enter a valid file path."
+msgstr "La ruta del archivo debe ser válida."
+
+msgid "Enter a valid floating-point number."
+msgstr "Ingresa un número decimal válido."
+
+msgid "This field must be a valid image."
+msgstr "Debe ser una imagen válida."
+
+msgid "Enter a valid IP address."
+msgstr "Ingresa una dirección IP válida."
+
+msgid "This field must be true, false, or null."
+msgstr "Este campo debe ser verdadero, falso o nulo."
+
+msgid "The value of this field must be a positive integer."
+msgstr "El valor de este campo debe ser un número entero positivo."
+
+msgid "Enter a valid slug."
+msgstr "Ingresa un slug válido."
+
+msgid "This field cannot be empty."
+msgstr "Este campo no puede estar vacío."
+
+msgid "Enter a valid time."
+msgstr "Ingresa una hora válida."
+
+msgid "Enter a valid URL."
+msgstr "Ingresa una URL válida."
+
+msgid "Passwords don't match."
+msgstr "Las contraseñas no coinciden."
+
+msgid "Phone number must be entered in the format: +999999999. Up to 15 digits allowed."
+msgstr "El número de teléfono debe ser ingresado en el formato: +999999999. Se permiten hasta 15 dígitos."
+
+msgid "Ensure this field has at least 8 characters."
+msgstr "Asegúrate de que este campo tenga al menos 8 caracteres."
+
+msgid "Ensure this field has no more than 64 characters."
+msgstr "Asegúrate de que este campo no tenga más de 64 caracteres."
+
+msgid "Invalid CI."
+msgstr "CI inválida."
+
+msgid "Feminine"
+msgstr "Femenino"
+
+msgid "Masculine"
+msgstr "Masculino"
+
+msgid "Other"
+msgstr "Otro"
+
+msgid "Recovery link has expired."
+msgstr "El enlace de recuperación ha caducado."
+
+msgid "Verification link has expired."
+msgstr "El enlace de verificación ha caducado."
+
+msgid "Invalid token"
+msgstr "Token inválido."
+
+msgid "Invalid credentials"
+msgstr "Credenciales inválidas."
+
+msgid "Account is not active yet :("
+msgstr "La cuenta aún no está activa :("
+
+msgid "New passwords do not match."
+msgstr "Las contraseñas nuevas no coinciden."
+
+msgid "No user found with the provided email."
+msgstr "No se encontró ningún usuario con el correo electrónico proporcionado."
+
+msgid "Password has been reset successfully."
+msgstr "La contraseña se ha restablecido correctamente."
+
+msgid "Recovery email sent successfully."
+msgstr "El correo de recuperación se ha enviado correctamente."
+
+msgid "Password updated successfully."
+msgstr "La contraseña se ha actualizado correctamente."
+
+msgid "Current password is incorrect."
+msgstr "La contraseña actual es incorrecta."
+
+msgid "Congratulations, account verification successful!"
+msgstr "¡Felicidades! ¡La verificación de la cuenta se ha realizado con éxito!"
+
+msgid "User already has an active subscription within the specified date range."
+msgstr "El usuario ya tiene una suscripción activa dentro del rango de fechas especificado."
+
+msgid "Insufficient funds"
+msgstr "Fondos insuficientes."
+
+msgid "Enter a valid MAC address."
+msgstr "Ingresa una dirección MAC válida."
+
+msgid "No user associated with that phone number"
+msgstr "No hay ningún usuario asociado a ese número de teléfono."
+
+msgid "Invalid billing period."
+msgstr "Período de facturación inválido."
+
+msgid "Subscription canceled."
+msgstr "Suscripción cancelada."
+

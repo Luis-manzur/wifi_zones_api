@@ -6,7 +6,51 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-16 20:23-0400\n"
 "Language: en-US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid "English"
+msgstr ""
+
+msgid "Spanish"
+msgstr ""
+
+msgid "Devices"
+msgstr ""
+
+msgid "Locations"
+msgstr ""
+
+msgid "Operations"
+msgstr ""
+
+msgid "Subscription"
+msgstr ""
+
+msgid "My Profile"
+msgstr ""
+
+msgid "Sign Out"
+msgstr ""
+
+msgid "Sign Up"
+msgstr ""
+
+msgid "Sign In"
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "email address"
+msgstr ""
+
+msgid "This email has already been taken."
+msgstr ""
+
+msgid "Information successfully updated"
+msgstr ""

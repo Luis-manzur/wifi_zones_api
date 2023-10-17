@@ -1,7 +1,8 @@
 """Subscriptions views"""
+# Django
+from django.utils.translation import gettext_lazy as _
 # Django filters
 from django_filters.rest_framework import DjangoFilterBackend
-
 # DRF
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import viewsets, mixins, serializers, status
@@ -12,13 +13,11 @@ from rest_framework.response import Response
 
 # Models
 from wifi_zones_api.subscriptions.models import Subscription
-
 # Serializer
 from wifi_zones_api.subscriptions.serializers.subscriptions import (
     SubscriptionModelSerializer,
     SubscriptionCreateModelSerializer,
 )
-
 # Utilities
 from wifi_zones_api.utils.permissions import IsObjectOwner
 
@@ -64,7 +63,7 @@ class SubscriptionViewSet(
         subscription = self.get_object()
         subscription.status = "canceled"
         subscription.save()
-        return Response({"message": "Subscription canceled."})
+        return Response({"message": _("Subscription canceled.")})
 
     @extend_schema(
         responses={201: SubscriptionModelSerializer},

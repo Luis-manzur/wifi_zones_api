@@ -1,11 +1,11 @@
 """Subscriptions Serializers."""
-
+# Django
+from django.utils.translation import gettext_lazy as _
 # Django REST Framework
 from rest_framework import serializers
 
 # Models
 from wifi_zones_api.subscriptions.models import Subscription, Plan
-
 # Serializers
 from wifi_zones_api.subscriptions.serializers.plans import PlanModelSerializer
 
@@ -24,7 +24,7 @@ class SubscriptionCreateModelSerializer(serializers.ModelSerializer):
 
         if existing_subscription:
             raise serializers.ValidationError(
-                "User already has an active subscription within the specified date range."
+                _("User already has an active subscription within the specified date range.")
             )
 
         plan: Plan = data["plan"]
@@ -32,7 +32,7 @@ class SubscriptionCreateModelSerializer(serializers.ModelSerializer):
 
         if data["billing_period"] == "monthly":
             if plan.monthly_price > user.balance:
-                raise serializers.ValidationError("Insufficient funds")
+                raise serializers.ValidationError(_("Insufficient funds"))
 
         return data
 

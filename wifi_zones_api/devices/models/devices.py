@@ -1,9 +1,9 @@
 """Device model"""
 
 from django.core.validators import RegexValidator
-
 # Django
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 # Utilities
 from wifi_zones_api.utils.models import WZModel
@@ -19,7 +19,7 @@ class Device(WZModel):
     brand = models.CharField()
     mac_regex = RegexValidator(
         regex=r"^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$",
-        message="Enter a valid MAC address.",
+        message=_("Enter a valid MAC address."),
     )
     mac = models.CharField(max_length=17, validators=[mac_regex])
 

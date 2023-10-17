@@ -1,7 +1,7 @@
 """Users views."""
 # Django
 from django.contrib.auth import update_session_auth_hash
-
+from django.utils.translation import gettext_lazy as _
 # Django REST Framework
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import mixins, status, viewsets, serializers
@@ -11,10 +11,8 @@ from rest_framework.response import Response
 
 # Models
 from wifi_zones_api.users.models import User
-
 # Permissions
 from wifi_zones_api.users.permissions import IsAccountOwner
-
 # Serializers
 from wifi_zones_api.users.serializers import (
     AccountVerificationSerializer,
@@ -93,7 +91,7 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
         serializer = self.get_serializer_class()(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        data = {"message": "Congratulations, account verification successful!"}
+        data = {"message": _("Congratulations, account verification successful!")}
         return Response(data, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=["put", "patch"])
@@ -130,7 +128,7 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
             new_password = serializer.validated_data["new_password"]
 
             if not user.check_password(current_password):
-                return Response({"message": "Current password is incorrect."}, status=400)
+                return Response({"message": _("Current password is incorrect.")}, status=400)
 
             user.set_password(new_password)
             user.save()
@@ -138,7 +136,7 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
             # Important: Update the session authentication hash
             update_session_auth_hash(request, user)
 
-            return Response({"message": "Password updated successfully."}, status=200)
+            return Response({"message": _("Password updated successfully.")}, status=200)
 
     @extend_schema(
         responses={200: confirmation_inline_serializer},
@@ -148,7 +146,7 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
         serializer = self.get_serializer_class()(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response({"message": "Recovery email sent successfully."}, status=200)
+            return Response({"message": _("Recovery email sent successfully.")}, status=200)
 
     @extend_schema(
         responses={200: confirmation_inline_serializer},
@@ -159,7 +157,7 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response({"message": "Password has been reset successfully."})
+        return Response({"message": _("Password has been reset successfully.")})
 
     @action(detail=True, methods=["get"], url_path="get-balance")
     def get_balance(self, request, *args, **kwargs):

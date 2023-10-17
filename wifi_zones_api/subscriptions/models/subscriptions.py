@@ -3,10 +3,10 @@ import datetime
 
 # Utils
 from dateutil.relativedelta import relativedelta
-
 # Django
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 # Utilities
 from wifi_zones_api.utils.models import WZModel
@@ -39,12 +39,12 @@ class Subscription(WZModel):
                 user=self.user, start_date__lte=self.start_date, end_date__gte=self.start_date, status="active"
             ).exists()
             if existing_subscription:
-                raise ValidationError("User already has an active subscription within the specified date range.")
+                raise ValidationError(_("User already has an active subscription within the specified date range."))
 
             if self.billing_period == "monthly":
                 self.end_date = self.start_date + relativedelta(months=1)
             elif self.billing_period == "yearly":
                 self.end_date = self.start_date + relativedelta(years=1)
             else:
-                raise ValidationError("Invalid billing period.")
+                raise ValidationError(_("Invalid billing period."))
         super().save(*args, **kwargs)

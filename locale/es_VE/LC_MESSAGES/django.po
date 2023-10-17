@@ -1,0 +1,87 @@
+#Traducciones para el proyecto de zonas WiFi
+#Copyright (C) 2023 Luis Ignacio Manzur Macero
+#Luis Ignacio Manzur Macero luismanzur91@outlook.com, 2023.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1.0\n"
+"Language: es-VE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "This field is required."
+msgstr "Este campo es obligatorio."
+
+msgid "This field must be unique."
+msgstr "Este campo debe ser único."
+
+msgid "Enter a valid email address."
+msgstr "Ingrese una dirección de correo electrónico válida."
+
+msgid "Passwords don't match."
+msgstr "Las contraseñas no coinciden."
+
+msgid "Phone number must be entered in the format: +999999999. Up to 15 digits allowed."
+msgstr "El número de teléfono debe ser ingresado en el formato: +999999999. Se permiten hasta 15 dígitos."
+
+msgid "Ensure this field has at least 8 characters."
+msgstr "Asegúrate de que este campo tenga al menos 8 caracteres."
+
+msgid "Ensure this field has no more than 64 characters."
+msgstr "Asegúrate de que este campo no tenga más de 64 caracteres."
+
+msgid "Invalid CI."
+msgstr "CI inválida."
+
+msgid "Feminine"
+msgstr "Femenino"
+
+msgid "Masculine"
+msgstr "Masculino"
+
+msgid "Other"
+msgstr "Otro"
+
+msgid "Recovery link has expired."
+msgstr "El enlace de recuperación ha caducado."
+
+msgid "Verification link has expired."
+msgstr "El enlace de verificación ha caducado."
+
+msgid "Invalid token"
+msgstr "Token inválido."
+
+msgid "Invalid credentials"
+msgstr "Credenciales inválidas."
+
+msgid "Account is not active yet :("
+msgstr "La cuenta aún no está activa :("
+
+msgid "New passwords do not match."
+msgstr "Las contraseñas nuevas no coinciden."
+
+msgid "No user found with the provided email."
+msgstr "No se encontró ningún usuario con el correo electrónico proporcionado."
+
+msgid "No user found with the provided email."
+msgstr "No se encontró ningún usuario con el correo electrónico proporcionado."
+
+msgid "Password has been reset successfully."
+msgstr "La contraseña se ha restablecido correctamente."
+
+msgid "Recovery email sent successfully."
+msgstr "El correo de recuperación se ha enviado correctamente."
+
+msgid "Password updated successfully."
+msgstr "La contraseña se ha actualizado correctamente."
+
+msgid "Current password is incorrect."
+msgstr "La contraseña actual es incorrecta."
+
+msgid "Congratulations, account verification successful!"
+msgstr "¡Felicidades! ¡La verificación de la cuenta se ha realizado con éxito!"
+
+
+

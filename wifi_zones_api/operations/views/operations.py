@@ -7,8 +7,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, mixins
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 
-# Filter
 # Models
 from wifi_zones_api.operations.models import Operation
 
@@ -23,7 +23,7 @@ class OperationsViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.R
     """Operation view set"""
 
     lookup_field = "code"
-
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
     filter_backends = (OrderingFilter, SearchFilter, DjangoFilterBackend)
     search_fields = ("code", "recharge__amount")
     filterset_fields = ["operation_type"]

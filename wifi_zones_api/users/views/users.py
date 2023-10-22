@@ -2,17 +2,21 @@
 # Django
 from django.contrib.auth import update_session_auth_hash
 from django.utils.translation import gettext_lazy as _
+
 # Django REST Framework
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import mixins, status, viewsets, serializers
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 
 # Models
 from wifi_zones_api.users.models import User
+
 # Permissions
 from wifi_zones_api.users.permissions import IsAccountOwner
+
 # Serializers
 from wifi_zones_api.users.serializers import (
     AccountVerificationSerializer,
@@ -36,6 +40,7 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
     Handle sign up, login and account verification.
     """
 
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
     queryset = User.objects.filter(is_active=True, is_client=True)
     lookup_field = "username"
 

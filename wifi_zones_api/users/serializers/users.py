@@ -2,11 +2,13 @@
 
 # Utilities
 import jwt
+
 # Django
 from django.conf import settings
 from django.contrib.auth import password_validation, authenticate
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
+
 # Django REST Framework
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
@@ -14,8 +16,10 @@ from rest_framework.validators import UniqueValidator
 
 # Models
 from wifi_zones_api.users.models import User, Profile
+
 # Serializers
 from wifi_zones_api.users.serializers.profiles import ProfileModelSerializer
+
 # Tasks
 from wifi_zones_api.users.tasks import send_confirmation_email, send_password_recovery_email
 

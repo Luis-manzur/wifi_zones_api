@@ -73,12 +73,12 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "drf_spectacular",
     "smart_selects",
+    "fcm_django",
 ]
 
 LOCAL_APPS = [
     "wifi_zones_api.users",
     "wifi_zones_api.locations",
-    "wifi_zones_api.devices",
     "wifi_zones_api.subscriptions",
     "wifi_zones_api.operations",
     # Your stuff: custom apps go here
@@ -300,3 +300,10 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# FCM
+FCM_DJANGO_SETTINGS = {
+    "APP_VERBOSE_NAME": "Devices",
+    "FCM_SERVER_KEY": env("FCM_SERVER_KEY"),
+    "ONE_DEVICE_PER_USER": False,
+}

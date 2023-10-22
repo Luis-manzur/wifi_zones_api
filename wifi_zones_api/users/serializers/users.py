@@ -2,13 +2,12 @@
 
 # Utilities
 import jwt
-
 # Django
 from django.conf import settings
 from django.contrib.auth import password_validation, authenticate
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
-
+from fcm_django.models import FCMDevice
 # Django REST Framework
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
@@ -16,10 +15,9 @@ from rest_framework.validators import UniqueValidator
 
 # Models
 from wifi_zones_api.users.models import User, Profile
-
+from wifi_zones_api.users.serializers.devices import DeviceSerializer
 # Serializers
 from wifi_zones_api.users.serializers.profiles import ProfileModelSerializer
-
 # Tasks
 from wifi_zones_api.users.tasks import send_confirmation_email, send_password_recovery_email
 
@@ -121,6 +119,7 @@ class UserLoginSerializer(serializers.Serializer):
 
     email = serializers.EmailField()
     password = serializers.CharField(min_length=8, max_length=64)
+    device = DeviceSerializer()
 
     def validate(self, data):
         """Check credentials."""
@@ -135,6 +134,9 @@ class UserLoginSerializer(serializers.Serializer):
     def create(self, data):
         """Generate or retrieve new token."""
         token, created = Token.objects.get_or_create(user=self.context["user"])
+        data['device']['user'] = self.context["user"]
+        registration_id = data['device'].pop('registration_id')
+        device = FCMDevice.objects.get_or_create(registration_id=registration_id, defaults=data['device'])
         return self.context["user"], token.key
 
 

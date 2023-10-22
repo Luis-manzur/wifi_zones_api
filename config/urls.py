@@ -1,21 +1,24 @@
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views import defaults as default_views
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from fcm_django.api.rest_framework import FCMDeviceAuthorizedViewSet
+from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 
-from wifi_zones_api.utils.admin import admin_site
+router = routers.DefaultRouter()
+router.register('devices', FCMDeviceAuthorizedViewSet)
 
 # API URLS
 urlpatterns = (
     [
-        path("admin/", admin_site.urls),
+        path("admin/", admin.site.urls),
         re_path(r"^chaining/", include("smart_selects.urls")),
         # DRF auth token
         path("users/", include(("wifi_zones_api.users.urls", "users"), namespace="users")),
         path("locations/", include(("wifi_zones_api.locations.urls", "locations"), namespace="locations")),
-        path("devices/", include(("wifi_zones_api.devices.urls", "devices"), namespace="devices")),
         path(
             "subscription/", include(("wifi_zones_api.subscriptions.urls", "subscriptions"), namespace="subscriptions")
         ),
@@ -27,6 +30,7 @@ urlpatterns = (
             SpectacularSwaggerView.as_view(url_name="api-schema"),
             name="api-docs",
         ),
+        path('', include(router.urls))
     ]
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

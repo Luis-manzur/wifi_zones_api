@@ -1,8 +1,10 @@
 """Subscriptions views"""
 # Django
 from django.utils.translation import gettext_lazy as _
+
 # Django filters
 from django_filters.rest_framework import DjangoFilterBackend
+
 # DRF
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import viewsets, mixins, serializers, status
@@ -10,14 +12,17 @@ from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 
 # Models
 from wifi_zones_api.subscriptions.models import Subscription
+
 # Serializer
 from wifi_zones_api.subscriptions.serializers.subscriptions import (
     SubscriptionModelSerializer,
     SubscriptionCreateModelSerializer,
 )
+
 # Utilities
 from wifi_zones_api.utils.permissions import IsObjectOwner
 
@@ -50,6 +55,7 @@ class SubscriptionViewSet(
 
         return [p() for p in permissions]
 
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
     filter_backends = (OrderingFilter, SearchFilter, DjangoFilterBackend)
     search_fields = ("name",)
     ordering_fields = ("-created", "created")

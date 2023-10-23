@@ -22,8 +22,7 @@ def add_user_balance(sender, instance: Recharge, created, **kwargs):
         tokens = []
         for device in devices:
             tokens.append(device)
-        response = send_notification("Recarga", f"Recarga exitosa por {instance.amount}", tokens)
-        print(response)
+        send_notification("Recarga", f"Recarga exitosa por {instance.amount}", tokens)
 
 
 @receiver(post_save, sender=Payment)

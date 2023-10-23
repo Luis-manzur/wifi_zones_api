@@ -25,3 +25,4 @@ def send_notification(title, msg, devices):
     ), tokens=devices)
 
     response = messaging.send_each_for_multicast(message)
+    print(response)

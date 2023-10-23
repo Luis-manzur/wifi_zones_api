@@ -12,7 +12,7 @@ class DeviceListModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Device
-        exclude = ["mac", "model", "created", "modified", "user"]
+        exclude = ["token", "created", "modified", "user"]
 
 
 class DeviceModelSerializer(serializers.ModelSerializer):
@@ -21,3 +21,21 @@ class DeviceModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Device
         exclude = ["user"]
+
+
+class DeviceLoginModelSerializer(DeviceModelSerializer):
+    """Device Login serializer"""
+
+    def get_fields(self):
+        """
+        Override to omit unique validation for `token` and 'device_id'.
+        """
+        fields = super().get_fields()
+
+        if 'device_id' in fields:
+            fields['device_id'].validators = []
+
+        if 'token' in fields:
+            fields['token'].validators = []
+
+        return fields

@@ -1,20 +1,17 @@
 """Recharges serializers"""
 import json
-
 # Utils
 from datetime import datetime
 
 # Django
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import gettext_lazy as _
-
 # Django REST Framework
 from rest_framework import serializers
 
 # Models
 from wifi_zones_api.operations.models import Recharge, PagoMovil, Operation
 from wifi_zones_api.users.models import User
-
 # Utilities
 from wifi_zones_api.utils.consts import BANKS
 
@@ -38,16 +35,32 @@ class PagoMovilModelSerializer(serializers.ModelSerializer):
 class PagoMovilCreateModelSerializer(serializers.Serializer):
     """Pago Movil create serializer."""
 
+    def ref_unique_validator(value):
+        """
+        Custom validator to check uniqueness of the field.
+        """
+        if PagoMovil.objects.filter(ref_pk=value).exists():
+            raise serializers.ValidationError("This field must be unique.")
+        return value
+
+    def ref_num_unique_validator(value):
+        """
+        Custom validator to check uniqueness of the field.
+        """
+        if PagoMovil.objects.filter(reference_number=value).exists():
+            raise serializers.ValidationError("This field must be unique.")
+        return value
+
     BancoOrig = serializers.ChoiceField(choices=BANKS)
     FechaMovimiento = serializers.DateField()
     HoraMovimiento = serializers.TimeField()
-    NroReferencia = serializers.CharField()
+    NroReferencia = serializers.CharField(validators=[ref_num_unique_validator])
     PhoneOrig = serializers.CharField()
     PhoneDest = serializers.CharField()
     Status = serializers.CharField()
     Descripcion = serializers.CharField()
     Amount = serializers.DecimalField(max_digits=10, decimal_places=2)
-    Refpk = serializers.CharField()
+    Refpk = serializers.CharField(validators=[ref_unique_validator])
 
     def validate_PhoneOrig(self, data):
         try:

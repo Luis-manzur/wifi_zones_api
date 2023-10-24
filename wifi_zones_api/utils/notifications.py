@@ -1,5 +1,9 @@
+import logging
+
 import firebase_admin
 from firebase_admin import credentials, messaging
+
+logger = logging.getLogger('console')
 
 cred = credentials.Certificate({
     "type": "service_account",
@@ -25,4 +29,5 @@ def send_notification(title, msg, devices):
     ), tokens=devices)
 
     response = messaging.send_each_for_multicast(message)
-    print(response)
+
+    logger.info(f"messaging response: {response}")

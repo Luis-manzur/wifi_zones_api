@@ -3,7 +3,6 @@ import datetime
 
 # Utils
 from dateutil.relativedelta import relativedelta
-
 # Django
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -23,6 +22,7 @@ class Subscription(WZModel):
     BILLING_PERIOD_CHOICES = [
         ("monthly", "Monthly"),
         ("yearly", "Yearly"),
+        ("daily", "Daily"),
     ]
 
     user = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="subscription")

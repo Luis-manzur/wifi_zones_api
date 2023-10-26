@@ -1,6 +1,7 @@
 """Custom model mixins"""
 # Django
 from django.core.cache import cache
+
 # DRF
 from rest_framework import mixins
 from rest_framework.response import Response

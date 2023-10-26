@@ -2,6 +2,7 @@
 # Django
 from django.contrib.auth import update_session_auth_hash
 from django.utils.translation import gettext_lazy as _
+
 # Django REST Framework
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import mixins, status, viewsets, serializers
@@ -12,8 +13,10 @@ from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 
 # Models
 from wifi_zones_api.users.models import User
+
 # Permissions
 from wifi_zones_api.users.permissions import IsAccountOwner
+
 # Serializers
 from wifi_zones_api.users.serializers import (
     AccountVerificationSerializer,
@@ -26,6 +29,7 @@ from wifi_zones_api.users.serializers import (
     UserBalanceSerializer,
 )
 from wifi_zones_api.users.serializers.profiles import ProfileModelSerializer
+
 # Utils
 from wifi_zones_api.utils import mixins as custom_mixins
 

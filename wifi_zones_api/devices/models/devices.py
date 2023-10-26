@@ -11,10 +11,8 @@ class Device(WZModel):
     """Device model.
     A device holds a user's device data for UC auto connection.
     """
-    OS = [
-        ("android", "android"),
-        ("ios", "ios")
-    ]
+
+    OS = [("android", "android"), ("ios", "ios")]
 
     name = models.CharField()
     token = models.CharField(unique=True)

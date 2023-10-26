@@ -32,10 +32,10 @@ class DeviceLoginModelSerializer(DeviceModelSerializer):
         """
         fields = super().get_fields()
 
-        if 'device_id' in fields:
-            fields['device_id'].validators = []
+        if "device_id" in fields:
+            fields["device_id"].validators = []
 
-        if 'token' in fields:
-            fields['token'].validators = []
+        if "token" in fields:
+            fields["token"].validators = []
 
         return fields

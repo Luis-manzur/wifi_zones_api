@@ -11,6 +11,7 @@ class Plan(WZModel):
     description = models.TextField()
     yearly_price = models.DecimalField(max_digits=8, decimal_places=2)
     monthly_price = models.DecimalField(max_digits=8, decimal_places=2)
+    daily_price = models.DecimalField(max_digits=8, decimal_places=2)
 
     def __str__(self):
         return self.name

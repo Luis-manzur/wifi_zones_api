@@ -1,4 +1,5 @@
 """Locations Views"""
+# Django
 # Django filters
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -13,8 +14,11 @@ from wifi_zones_api.locations.models import Location
 # Serializer
 from wifi_zones_api.locations.serializers.locations import LocationModelSerializer, LocationListModelSerializer
 
+# Utils
+from wifi_zones_api.utils import mixins as custom_mixins
 
-class LocationViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.ListModelMixin):
+
+class LocationViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, custom_mixins.CacheListModelMixin):
     """Location view set.
     Handle list and retrieve.
     """
@@ -27,6 +31,9 @@ class LocationViewSet(viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins
             return LocationModelSerializer
         if self.action == "list":
             return LocationListModelSerializer
+
+    def get_cache_timeout(self):
+        return 60 * 60 * 12
 
     filter_backends = (OrderingFilter, SearchFilter, DjangoFilterBackend)
     search_fields = ("name",)

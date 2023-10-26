@@ -1,13 +1,20 @@
 """Operations signals"""
 
+from django.core.cache import cache
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from wifi_zones_api.devices.models import Device
 # Models
-from wifi_zones_api.operations.models import Payment, Recharge
+from wifi_zones_api.operations.models import Payment, Recharge, Operation
 # Notifications
 from wifi_zones_api.utils.notifications import send_notification
+
+
+def clear_cache(key):
+    keys = cache.keys(f"*{key}*")
+    for key in keys:
+        cache.delete(key)
 
 
 @receiver(post_save, sender=Recharge)
@@ -32,3 +39,8 @@ def take_user_balance(sender, instance: Payment, created, **kwargs):
         user = operation.user
         user.balance -= instance.amount
         user.save()
+
+
+@receiver(post_save, sender=Operation)
+def operation_update(sender, instance: Operation, created, **kwargs):
+    clear_cache(f"operations/{instance.user.pk}")

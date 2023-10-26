@@ -1,12 +1,13 @@
 """Subscription signals"""
 
-from django.db.models.signals import post_save
+from django.core.cache import cache
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 from wifi_zones_api.operations.models import Payment, Operation
 
 # Models
-from wifi_zones_api.subscriptions.models import Subscription
+from wifi_zones_api.subscriptions.models import Subscription, Plan
 
 
 @receiver(post_save, sender=Subscription)
@@ -25,3 +26,19 @@ def charge_subscription(sender, instance: Subscription, created, **kwargs):
         operation.save()
         payment.operation = operation
         payment.save()
+
+
+def clear_cache(key):
+    keys = cache.keys(f"*{key}*")
+    for key in keys:
+        cache.delete(key)
+
+
+@receiver(post_save, sender=Plan)
+def location_update(sender, instance: Plan, created, **kwargs):
+    clear_cache("plans")
+
+
+@receiver(post_delete, sender=Plan)
+def location_delete(sender, instance: Plan, **kwargs):
+    clear_cache("plans")

@@ -30,12 +30,15 @@ from wifi_zones_api.users.serializers import (
 )
 from wifi_zones_api.users.serializers.profiles import ProfileModelSerializer
 
+# Utils
+from wifi_zones_api.utils import mixins as custom_mixins
+
 confirmation_inline_serializer = inline_serializer(
     name="VerifyInlineSerializer", fields={"message": serializers.CharField()}
 )
 
 
-class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+class UserViewSet(custom_mixins.CacheRetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     """User view set.
     Handle sign up, login and account verification.
     """
@@ -74,6 +77,9 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
         else:
             permissions = [IsAuthenticated]
         return [p() for p in permissions]
+
+    def get_cache_timeout(self):
+        return 60 * 60 * 6
 
     @extend_schema(
         responses={201: UserModelSerializer},

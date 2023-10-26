@@ -14,12 +14,13 @@ from wifi_zones_api.operations.models import Operation
 
 # Serializer
 from wifi_zones_api.operations.serializers.operations import OperationListModelSerializer
+from wifi_zones_api.utils import mixins as custom_mixins
 
 # Utilities
 from wifi_zones_api.utils.permissions import IsObjectOwner
 
 
-class OperationsViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.RetrieveModelMixin):
+class OperationsViewSet(viewsets.GenericViewSet, custom_mixins.CacheListPrivateModelMixin, mixins.RetrieveModelMixin):
     """Operation view set"""
 
     lookup_field = "code"
@@ -30,6 +31,8 @@ class OperationsViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.R
     ordering_fields = ("-created", "created")
     ordering = ("-created",)
 
+    serializer_class = OperationListModelSerializer
+
     def get_queryset(self):
         return Operation.objects.filter(user=self.request.user)
 
@@ -38,5 +41,5 @@ class OperationsViewSet(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.R
 
         return [p() for p in permissions]
 
-    serializer_class = OperationListModelSerializer
-    queryset = Operation.objects.all()
+    def get_cache_timeout(self):
+        return 60 * 60 * 3

@@ -22,6 +22,7 @@ class Operation(WZModel):
     OPERATION_TYPES = [
         ("R", "Recharge"),
         ("P", "Payment"),
+        ("T", "Transfer"),
     ]
 
     operation_type = models.CharField(max_length=1, choices=OPERATION_TYPES, default="R")

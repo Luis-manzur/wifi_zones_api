@@ -13,7 +13,7 @@ from .views import transfers as transfers_views
 router = DefaultRouter()
 router.register(r"recharge/pago-movil", pago_movil_views.PagoMovilViewSet, basename="pago-movil")
 router.register(r"", operations_views.OperationsViewSet, basename="operations")
-router.register(r"transfer", transfers_views.TransferViewSet, basename="transfers")
+router.register(r"transfer/internal", transfers_views.TransferViewSet, basename="transfers")
 
 urlpatterns = [
     path("", include(router.urls)),

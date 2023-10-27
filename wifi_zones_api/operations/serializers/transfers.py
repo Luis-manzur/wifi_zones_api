@@ -34,6 +34,8 @@ class TransferCreateModelSerializer(serializers.ModelSerializer):
         if sender.balance <= data["amount"]:
             raise serializers.ValidationError(_("Insufficient funds"))
 
+        return data
+
     def create(self, data):
         # Create sender operation
         sender_operation = Operation()

@@ -156,3 +156,6 @@ msgstr "Período de facturación inválido."
 msgid "Subscription canceled."
 msgstr "Suscripción cancelada."
 
+msgid "Successful Transfer."
+msgstr "Transferencia exitosa."
+

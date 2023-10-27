@@ -1,6 +1,7 @@
 """Transfers view sets"""
 # Django
 from django.utils.translation import gettext_lazy as _
+
 # DRF
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import viewsets, mixins, serializers
@@ -9,6 +10,7 @@ from rest_framework.response import Response
 
 # Models
 from wifi_zones_api.operations.models import Transfer
+
 # Serializer
 from wifi_zones_api.operations.serializers.transfers import TransferCreateModelSerializer
 

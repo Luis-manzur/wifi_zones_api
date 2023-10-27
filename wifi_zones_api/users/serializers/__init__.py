@@ -8,4 +8,5 @@ from .users import (
     PasswordRecoverySerializer,
     PasswordResetSerializer,
     UserBalanceSerializer,
+    UserLookUpSerializer,
 )

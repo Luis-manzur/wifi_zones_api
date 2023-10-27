@@ -32,6 +32,7 @@ class OperationsViewSet(viewsets.GenericViewSet, custom_mixins.CacheListPrivateM
     ordering = ("-created",)
 
     serializer_class = OperationListModelSerializer
+    queryset = Operation.objects.all()
 
     def get_queryset(self):
         return Operation.objects.filter(user=self.request.user)

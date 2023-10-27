@@ -5,8 +5,10 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from wifi_zones_api.devices.models import Device
+
 # Models
 from wifi_zones_api.operations.models import Payment, Recharge, Operation, Transfer
+
 # Notifications
 from wifi_zones_api.utils.notifications import send_notification
 

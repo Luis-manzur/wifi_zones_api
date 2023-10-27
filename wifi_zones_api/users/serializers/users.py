@@ -223,3 +223,9 @@ class UserBalanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("balance",)
+
+
+class UserLookUpSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("username",)

@@ -3,10 +3,14 @@
 from django.contrib.auth import update_session_auth_hash
 from django.utils.translation import gettext_lazy as _
 
+# Django filters
+from django_filters.rest_framework import DjangoFilterBackend
+
 # Django REST Framework
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import mixins, status, viewsets, serializers
 from rest_framework.decorators import action
+from rest_framework.filters import SearchFilter
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
@@ -27,6 +31,7 @@ from wifi_zones_api.users.serializers import (
     PasswordRecoverySerializer,
     PasswordResetSerializer,
     UserBalanceSerializer,
+    UserLookUpSerializer,
 )
 from wifi_zones_api.users.serializers.profiles import ProfileModelSerializer
 
@@ -38,14 +43,21 @@ confirmation_inline_serializer = inline_serializer(
 )
 
 
-class UserViewSet(custom_mixins.CacheRetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+class UserViewSet(
+    custom_mixins.CacheRetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    custom_mixins.CacheListModelMixin,
+    viewsets.GenericViewSet,
+):
     """User view set.
     Handle sign up, login and account verification.
     """
 
+    filter_backends = (SearchFilter, DjangoFilterBackend)
     throttle_classes = [UserRateThrottle, AnonRateThrottle]
     queryset = User.objects.filter(is_active=True, is_client=True)
     lookup_field = "username"
+    search_fields = ("username",)
 
     def get_serializer_class(self):
         """Assign serializer based on action"""
@@ -65,6 +77,8 @@ class UserViewSet(custom_mixins.CacheRetrieveModelMixin, mixins.UpdateModelMixin
             return PasswordResetSerializer
         elif self.action == "get_balance":
             return UserBalanceSerializer
+        elif self.action == "list":
+            return UserLookUpSerializer
         else:
             return UserModelSerializer
 
@@ -155,9 +169,9 @@ class UserViewSet(custom_mixins.CacheRetrieveModelMixin, mixins.UpdateModelMixin
     @action(detail=False, methods=["post"], url_path="recover-password")
     def recover_password(self, request, *args, **kwargs):
         serializer = self.get_serializer_class()(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response({"message": _("Recovery email sent successfully.")}, status=200)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"message": _("Recovery email sent successfully.")}, status=200)
 
     @extend_schema(
         responses={200: confirmation_inline_serializer},

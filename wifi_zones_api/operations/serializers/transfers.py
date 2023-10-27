@@ -58,3 +58,5 @@ class TransferCreateModelSerializer(serializers.ModelSerializer):
         transfer.receiver_operation = receiver_operation
         transfer.sender_operation = sender_operation
         transfer.save()
+
+        return data

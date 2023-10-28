@@ -36,6 +36,14 @@ class SubscriptionCreateModelSerializer(serializers.ModelSerializer):
             if plan.monthly_price > user.balance:
                 raise serializers.ValidationError(_("Insufficient funds"))
 
+        if data["billing_period"] == "yearly":
+            if plan.yearly_price > user.balance:
+                raise serializers.ValidationError(_("Insufficient funds"))
+
+        if data["billing_period"] == "daily":
+            if plan.daily_price > user.balance:
+                raise serializers.ValidationError(_("Insufficient funds"))
+
         return data
 
 

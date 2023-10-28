@@ -4,6 +4,7 @@
 
 # Django
 from django.utils.translation import gettext_lazy as _
+
 # Django REST Framework
 from rest_framework import serializers
 
@@ -17,10 +18,10 @@ from wifi_zones_api.users.models import User
 
 class TransferCreateModelSerializer(serializers.ModelSerializer):
     """Transfer create model serializer."""
+
     sender = serializers.HiddenField(default=serializers.CurrentUserDefault())
     receiver = serializers.SlugRelatedField(
-        slug_field='username',
-        queryset=User.objects.filter(is_client=True, is_active=True, is_verified=True)
+        slug_field="username", queryset=User.objects.filter(is_client=True, is_active=True, is_verified=True)
     )
 
     class Meta:
@@ -42,7 +43,7 @@ class TransferCreateModelSerializer(serializers.ModelSerializer):
         sender_operation.user = data["sender"]
         sender_operation.operation_type = "T"
         sender_operation.prev_balance = sender_operation.user.balance
-        sender_operation.post_balance = sender_operation.user.balance - data['amount']
+        sender_operation.post_balance = sender_operation.user.balance - data["amount"]
         sender_operation.save()
 
         # Create receiver operation
@@ -50,7 +51,7 @@ class TransferCreateModelSerializer(serializers.ModelSerializer):
         receiver_operation.user = data["receiver"]
         receiver_operation.operation_type = "T"
         receiver_operation.prev_balance = receiver_operation.user.balance
-        receiver_operation.post_balance = receiver_operation.user.balance + data['amount']
+        receiver_operation.post_balance = receiver_operation.user.balance + data["amount"]
         receiver_operation.save()
 
         # Save transfer

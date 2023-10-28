@@ -10,10 +10,13 @@ from wifi_zones_api.utils.models import WZModel
 
 class Transfer(WZModel):
     """Transfers Model."""
-    sender_operation = models.ForeignKey("operations.Operation", related_name="sent_transfers",
-                                         on_delete=models.CASCADE)
-    receiver_operation = models.ForeignKey("operations.Operation", related_name="received_transfers",
-                                           on_delete=models.CASCADE)
+
+    sender_operation = models.ForeignKey(
+        "operations.Operation", related_name="sent_transfers", on_delete=models.CASCADE
+    )
+    receiver_operation = models.ForeignKey(
+        "operations.Operation", related_name="received_transfers", on_delete=models.CASCADE
+    )
     sender = models.ForeignKey("users.User", related_name="sent_transfers", on_delete=models.DO_NOTHING)
     receiver = models.ForeignKey("users.User", related_name="received_transfers", on_delete=models.DO_NOTHING)
 

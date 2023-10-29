@@ -1,7 +1,6 @@
 """Operation serializer"""
-
+# Django
 from django.db.models import Q
-
 # DRF
 from rest_framework import serializers
 
@@ -13,10 +12,12 @@ class OperationListModelSerializer(serializers.ModelSerializer):
     """Operations list model serializer"""
 
     amount = serializers.SerializerMethodField()
+    date = serializers.SerializerMethodField()
+    time = serializers.SerializerMethodField()
 
     class Meta:
         model = Operation
-        fields = ["id", "operation_type", "prev_balance", "post_balance", "amount", "created", "code"]
+        fields = ["id", "operation_type", "prev_balance", "post_balance", "amount", "date", "time", "code"]
 
     def get_amount(self, obj: Operation) -> int:
         if obj.operation_type == "R":
@@ -30,3 +31,9 @@ class OperationListModelSerializer(serializers.ModelSerializer):
             return transfer.amount
 
         return 0
+
+    def get_date(self, obj: Operation) -> str:
+        return obj.created.strftime("%d/%m/%y")
+
+    def get_time(self, obj: Operation) -> str:
+        return obj.created.strftime("%H:%M:%S")

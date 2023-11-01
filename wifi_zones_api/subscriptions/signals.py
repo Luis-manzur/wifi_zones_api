@@ -5,7 +5,6 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 from wifi_zones_api.operations.models import Payment, Operation
-
 # Models
 from wifi_zones_api.subscriptions.models import Subscription, Plan
 
@@ -35,10 +34,10 @@ def clear_cache(key):
 
 
 @receiver(post_save, sender=Plan)
-def location_update(sender, instance: Plan, created, **kwargs):
+def plan_update(sender, instance: Plan, created, **kwargs):
     clear_cache("plans")
 
 
 @receiver(post_delete, sender=Plan)
-def location_delete(sender, instance: Plan, **kwargs):
+def plan_delete(sender, instance: Plan, **kwargs):
     clear_cache("plans")

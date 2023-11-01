@@ -44,6 +44,7 @@ class User(AbstractUser):
     class Meta:
         indexes = [
             models.Index(fields=["phone_number"]),
+            models.Index(fields=['username'])
         ]
 
     def __str__(self):

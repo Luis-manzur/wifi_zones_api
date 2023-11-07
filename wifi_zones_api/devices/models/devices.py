@@ -16,6 +16,5 @@ class Device(WZModel):
 
     name = models.CharField()
     token = models.CharField(unique=True)
-    device_id = models.CharField(unique=True)
     os = models.CharField(choices=OS, default="android")
     user = models.ForeignKey("users.User", related_name="device", on_delete=models.CASCADE)

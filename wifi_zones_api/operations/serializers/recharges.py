@@ -1,20 +1,17 @@
 """Recharges serializers"""
 import json
-
 # Utils
 from datetime import datetime
 
 # Django
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import gettext_lazy as _
-
 # Django REST Framework
 from rest_framework import serializers
 
 # Models
 from wifi_zones_api.operations.models import Recharge, PagoMovil, Operation
 from wifi_zones_api.users.models import User
-
 # Utilities
 from wifi_zones_api.utils.consts import BANKS
 
@@ -67,7 +64,8 @@ class PagoMovilCreateModelSerializer(serializers.Serializer):
 
     def validate_PhoneOrig(self, data):
         try:
-            user = User.objects.get(phone_number=data)
+            phone_number = data[2:]
+            user = User.objects.get(phone_number=phone_number)
             self.context["user"] = user
         except ObjectDoesNotExist:
             raise serializers.ValidationError(_("No user associated with that phone number"))

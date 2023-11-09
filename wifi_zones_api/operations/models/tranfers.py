@@ -19,5 +19,6 @@ class Transfer(WZModel):
     )
     sender = models.ForeignKey("users.User", related_name="sent_transfers", on_delete=models.DO_NOTHING)
     receiver = models.ForeignKey("users.User", related_name="received_transfers", on_delete=models.DO_NOTHING)
+    concept = models.CharField(max_length=160, null=True)
 
     amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(1.00)])

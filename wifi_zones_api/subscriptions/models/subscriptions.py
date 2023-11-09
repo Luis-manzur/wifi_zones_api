@@ -1,9 +1,7 @@
 """subscriptions plans """
-import datetime
 
 # Utils
 from dateutil.relativedelta import relativedelta
-
 # Django
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -28,7 +26,7 @@ class Subscription(WZModel):
 
     user = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="subscription")
     plan = models.ForeignKey("subscriptions.Plan", on_delete=models.CASCADE)
-    start_date = models.DateField(default=datetime.date.today())
+    start_date = models.DateField(auto_now_add=True)
     end_date = models.DateField()
     billing_period = models.CharField(max_length=10, choices=BILLING_PERIOD_CHOICES)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="active")

@@ -33,9 +33,10 @@ def send_confirmation_email(user_pk):
     verification_token = gen_verification_token(user, "email_confirmation")
     subject = "Bienvenido @{}! Verifica tu cuenta antes de empezar a utilizar Datinvoz.".format(user)
     from_email = settings.DEFAULT_FROM_EMAIL
+    url = f"{settings.URL}verify/?token={verification_token}"
     content = render_to_string(
-        "emails/users/account_verification.html",
-        {"token": verification_token, "user": user},
+        "emails/link.html",
+        {"url": url, "message": subject, "title": "Verifica tu cuenta", "button_name": "Verificar"},
     )
     msg = EmailMultiAlternatives(subject, content, from_email, [user.email])
     msg.attach_alternative(content, "text/html")
@@ -47,8 +48,14 @@ def send_password_recovery_email(user_pk):
     """Send password recovery link to given user."""
     user = User.objects.get(pk=user_pk)
     token = gen_verification_token(user, "password_recovery")
-    reset_link = f"https://google.com/reset-password?token={token}"
-    subject = "Datinvoz Password Reset."
+    url = f"{settings.URL}reset-password?token={token}"
+    subject = "Datinvoz reseteo de contraseña."
+    message = f" {user} Recientemente solicitaste restablecer la contraseña de tu cuenta de Datinvoz. Para restablecer tu contraseña, haz clic en el siguiente enlace:"
     from_email = settings.DEFAULT_FROM_EMAIL
-    msg = EmailMultiAlternatives(subject, reset_link, from_email, [user.email])
+    content = render_to_string(
+        "emails/link.html",
+        {"url": url, "message": message, "title": "Reseteo de Contraseña", "button_name": "Cambiar contraseña"},
+    )
+    msg = EmailMultiAlternatives(subject, content, from_email, [user.email])
+    msg.attach_alternative(content, "text/html")
     msg.send()

@@ -300,3 +300,8 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+# URL
+URL = env(
+    "URL",
+    default="api.wifizone.com",
+)

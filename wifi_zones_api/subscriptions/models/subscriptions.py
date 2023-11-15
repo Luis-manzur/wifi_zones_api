@@ -3,6 +3,7 @@ import datetime
 
 # Utils
 from dateutil.relativedelta import relativedelta
+
 # Django
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -30,15 +31,14 @@ class Subscription(WZModel):
     start_date = models.DateField(auto_now_add=True)
     end_date = models.DateField()
     billing_period = models.CharField(max_length=10, choices=BILLING_PERIOD_CHOICES)
+    auto_renew = models.BooleanField(default=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="active")
 
     def save(self, *args, **kwargs):
         is_new_instance = self.pk is None  # Check if the primary key is None
 
         if is_new_instance:
-            existing_subscription = Subscription.objects.filter(
-                user=self.user, status="active"
-            ).exists()
+            existing_subscription = Subscription.objects.filter(user=self.user, status="active").exists()
             if existing_subscription:
                 raise ValidationError(_("User already has an active subscription within the specified date range."))
 

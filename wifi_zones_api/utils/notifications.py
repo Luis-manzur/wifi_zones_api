@@ -3,6 +3,8 @@ import logging
 import firebase_admin
 from firebase_admin import credentials, messaging
 
+from wifi_zones_api.devices.models import Device
+
 logger = logging.getLogger("console")
 
 cred = credentials.Certificate(
@@ -21,6 +23,14 @@ cred = credentials.Certificate(
     }
 )
 firebase_admin.initialize_app(cred)
+
+
+def get_user_devices_tokens(user):
+    devices = Device.objects.filter(user=user).values_list("token", flat=True)
+    tokens = []
+    for device in devices:
+        tokens.append(device)
+    return tokens
 
 
 def send_notification(title, msg, devices):

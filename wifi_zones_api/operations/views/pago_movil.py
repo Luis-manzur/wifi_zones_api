@@ -6,12 +6,13 @@ from rest_framework.response import Response
 
 # Models
 from wifi_zones_api.operations.models import PagoMovil
+
 # Serializer
 from wifi_zones_api.operations.serializers.recharges import PagoMovilCreateModelSerializer
 
 confirmation_inline_serializer = inline_serializer(
     name="PagoMovilConfirmationInlineSerializer",
-    fields={"code": serializers.IntegerField(default=200), "Refpk": serializers.CharField()}
+    fields={"code": serializers.IntegerField(default=200), "Refpk": serializers.CharField()},
 )
 
 

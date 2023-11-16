@@ -1,6 +1,7 @@
 """Operation serializer"""
 # Django
 from django.db.models import Q
+
 # DRF
 from rest_framework import serializers
 

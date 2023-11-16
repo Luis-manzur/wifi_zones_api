@@ -42,10 +42,7 @@ class User(AbstractUser):
     objects = UserManager()
 
     class Meta:
-        indexes = [
-            models.Index(fields=["phone_number"]),
-            models.Index(fields=['username'])
-        ]
+        indexes = [models.Index(fields=["phone_number"]), models.Index(fields=["username"])]
 
     def __str__(self):
         """Return username."""

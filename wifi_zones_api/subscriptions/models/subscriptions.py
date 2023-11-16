@@ -47,6 +47,8 @@ class Subscription(WZModel):
                 self.end_date = self.start_date + relativedelta(months=1)
             elif self.billing_period == "yearly":
                 self.end_date = self.start_date + relativedelta(years=1)
+            elif self.billing_period == "daily":
+                self.end_date = self.start_date + relativedelta(days=1)
             else:
                 raise ValidationError(_("Invalid billing period."))
         super().save(*args, **kwargs)

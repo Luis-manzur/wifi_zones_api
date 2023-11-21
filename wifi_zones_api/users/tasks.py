@@ -48,7 +48,7 @@ def send_password_recovery_email(user_pk):
     """Send password recovery link to given user."""
     user = User.objects.get(pk=user_pk)
     token = gen_verification_token(user, "password_recovery")
-    url = f"{settings.URL}reset-password?token={token}"
+    url = f"{settings.URL}reset-password/?token={token}"
     subject = "Datinvoz reseteo de contraseña."
     message = f" {user} Recientemente solicitaste restablecer la contraseña de tu cuenta de Datinvoz. Para restablecer tu contraseña, haz clic en el siguiente enlace:"
     from_email = settings.DEFAULT_FROM_EMAIL

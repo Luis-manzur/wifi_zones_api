@@ -3,7 +3,6 @@ import datetime
 
 # Utils
 from dateutil.relativedelta import relativedelta
-
 # Django
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -42,8 +41,8 @@ class Subscription(WZModel):
             if existing_subscription:
                 raise ValidationError(_("User already has an active subscription within the specified date range."))
 
+            self.start_date = datetime.date.today()
             if self.billing_period == "monthly":
-                self.start_date = datetime.date.today()
                 self.end_date = self.start_date + relativedelta(months=1)
             elif self.billing_period == "yearly":
                 self.end_date = self.start_date + relativedelta(years=1)

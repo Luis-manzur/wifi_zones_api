@@ -1,13 +1,11 @@
 """Subscriptions Serializers."""
 # Django
 from django.utils.translation import gettext_lazy as _
-
 # Django REST Framework
 from rest_framework import serializers
 
 # Models
 from wifi_zones_api.subscriptions.models import Subscription, Plan
-
 # Serializers
 from wifi_zones_api.subscriptions.serializers.plans import PlanModelSerializer
 
@@ -55,3 +53,13 @@ class SubscriptionModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription
         exclude = ["created", "modified", "user"]
+
+
+class SubscriptionUpdateModelSerializer(serializers.ModelSerializer):
+    """Subscription update model serializer."""
+
+    plan = PlanModelSerializer(read_only=True)
+
+    class Meta:
+        model = Subscription
+        exclude = ["created", "modified", "user", "end_date", "status"]

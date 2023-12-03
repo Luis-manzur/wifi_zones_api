@@ -6,7 +6,6 @@ from rest_framework.response import Response
 
 # Models
 from wifi_zones_api.operations.models import PagoMovil
-
 # Serializer
 from wifi_zones_api.operations.serializers.recharges import PagoMovilCreateModelSerializer
 
@@ -21,10 +20,10 @@ class PagoMovilViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
     queryset = PagoMovil.objects.all()
 
     @extend_schema(
-        responses={201: confirmation_inline_serializer},
+        responses={200: confirmation_inline_serializer},
     )
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer_class()(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.save()
-        return Response({"code": 200, "Refpk": data["Refpk"]}, status=201)
+        return Response({"code": 200, "Refpk": data["Refpk"]}, status=200)

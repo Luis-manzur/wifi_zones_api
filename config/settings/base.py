@@ -305,3 +305,9 @@ URL = env(
     "URL",
     default="api.wifizone.com",
 )
+# RUIJIE
+RUIJIE_URL = env("RUIJIE_URL")
+RUIJIE_APP_ID = env("RUIJIE_APP_ID")
+RUIJIE_SECRET = env("RUIJIE_SECRET")
+RUIJIE_USER = env("RUIJIE_USER")
+RUIJIE_PASSWORD = env("RUIJIE_PASSWORD")

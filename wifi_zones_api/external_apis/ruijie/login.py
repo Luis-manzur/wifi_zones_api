@@ -1,4 +1,6 @@
 """Login request"""
+# utils
+import logging
 
 # Django
 from django.conf import settings
@@ -6,6 +8,8 @@ from django.core.cache import cache
 
 # Api Caller
 from wifi_zones_api.external_apis.api_caller import api_get
+
+logger = logging.getLogger("console")
 
 
 def login() -> bool:
@@ -28,7 +32,7 @@ def login() -> bool:
             "tenant_id": result.get("tenantId"),
         }
         cache.set("ruijie_account", data, timeout=None)
-
+        logger.info("Successfully login to Ruijie.")
         return True
-
+    logger.error("Error while trying to login to Ruijie.")
     return False

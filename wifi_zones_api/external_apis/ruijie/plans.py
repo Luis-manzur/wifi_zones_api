@@ -9,7 +9,7 @@ from wifi_zones_api.external_apis.api_caller import api_get
 from wifi_zones_api.external_apis.ruijie import refresh_token
 
 
-def get_plans(location: str) -> None:
+def get_plans(location: int) -> dict | None:
     """refresh locations to ruijie and save it in cache"""
     cache_data = cache.get("ruijie_account")
     if cache_data:
@@ -22,7 +22,6 @@ def get_plans(location: str) -> None:
         }
 
         result, status_code = api_get(url, params)
-
         if status_code == 200:
             data = result['data']
             return data

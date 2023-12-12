@@ -159,3 +159,12 @@ msgstr "Suscripción cancelada."
 msgid "Successful Transfer."
 msgstr "Transferencia exitosa."
 
+msgid "No internet access point near you."
+msgstr "No hay ninguna zona wifi cerca de ti."
+
+msgid "You have no active subscription."
+msgstr "No tienes ninguna subscripción activa."
+
+msgid "Error generating connection code."
+msgstr "Error generando el código de conexión."
+

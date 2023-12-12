@@ -8,6 +8,7 @@ from wifi_zones_api.utils.models import WZModel
 
 class Plan(WZModel):
     name = models.CharField(max_length=255)
+    slug_name = models.SlugField(unique=True, max_length=40)
     description = models.TextField()
     navigation_speed = models.PositiveIntegerField(help_text="Plan navigation speed in Mbps")
     yearly_price = models.DecimalField(max_digits=8, decimal_places=2)

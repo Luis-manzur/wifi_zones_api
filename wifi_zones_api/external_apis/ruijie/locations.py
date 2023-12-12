@@ -29,7 +29,7 @@ def refresh_locations() -> bool:
 
         if status_code == 200:
             data = result['data']
-            cache.set("ruijie_locations", data, timeout=None)
+            cache.set("ruijie_locations", data, timeout=300)
 
             return True
         else:

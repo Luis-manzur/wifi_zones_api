@@ -26,3 +26,4 @@ fcm-django
 pytest~=7.4.2
 django-debug-toolbar~=4.2.0
 PyJWT~=2.8.0
+haversine

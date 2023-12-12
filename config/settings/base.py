@@ -81,6 +81,8 @@ LOCAL_APPS = [
     "wifi_zones_api.devices",
     "wifi_zones_api.subscriptions",
     "wifi_zones_api.operations",
+    "wifi_zones_api.vouchers",
+    "wifi_zones_api.external_apis",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -305,3 +307,9 @@ URL = env(
     "URL",
     default="api.wifizone.com",
 )
+# RUIJIE
+RUIJIE_URL = env("RUIJIE_URL")
+RUIJIE_APP_ID = env("RUIJIE_APP_ID")
+RUIJIE_SECRET = env("RUIJIE_SECRET")
+RUIJIE_USER = env("RUIJIE_USER")
+RUIJIE_PASSWORD = env("RUIJIE_PASSWORD")

@@ -15,15 +15,11 @@ def get_plans(location: int) -> dict | None:
     if cache_data:
         actual_access_token = cache_data.get("access_token")
         url = f"{settings.RUIJIE_URL}/service/api/intl/usergroup/list/{location}"
-        params = {
-            "page": 1,
-            "per_page": 100,
-            "access_token": actual_access_token
-        }
+        params = {"page": 1, "per_page": 100, "access_token": actual_access_token}
 
         result, status_code = api_get(url, params)
         if status_code == 200:
-            data = result['data']
+            data = result["data"]
             return data
         else:
             if refresh_token():

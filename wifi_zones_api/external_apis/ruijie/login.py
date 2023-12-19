@@ -19,7 +19,7 @@ def login() -> bool:
         "appid": settings.RUIJIE_APP_ID,
         "secret": settings.RUIJIE_SECRET,
         "account": settings.RUIJIE_USER,
-        "password": settings.RUIJIE_PASSWORD
+        "password": settings.RUIJIE_PASSWORD,
     }
 
     result, status_code = api_get(url, params)

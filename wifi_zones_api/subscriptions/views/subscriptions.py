@@ -1,9 +1,12 @@
 """Subscriptions views"""
 from django.shortcuts import get_object_or_404
+
 # Django
 from django.utils.translation import gettext_lazy as _
+
 # Django filters
 from django_filters.rest_framework import DjangoFilterBackend
+
 # DRF
 from drf_spectacular.utils import extend_schema, inline_serializer
 from rest_framework import viewsets, mixins, serializers, status
@@ -15,12 +18,14 @@ from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 
 # Models
 from wifi_zones_api.subscriptions.models import Subscription
+
 # Serializer
 from wifi_zones_api.subscriptions.serializers.subscriptions import (
     SubscriptionModelSerializer,
     SubscriptionCreateModelSerializer,
-    SubscriptionUpdateModelSerializer
+    SubscriptionUpdateModelSerializer,
 )
+
 # Utilities
 from wifi_zones_api.utils.permissions import IsObjectOwner
 
@@ -30,8 +35,11 @@ confirmation_inline_serializer = inline_serializer(
 
 
 class SubscriptionViewSet(
-    viewsets.GenericViewSet, mixins.RetrieveModelMixin, mixins.ListModelMixin, mixins.CreateModelMixin,
-    mixins.UpdateModelMixin
+    viewsets.GenericViewSet,
+    mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
 ):
     """Subscription view set.
     Handle list and retrieve.

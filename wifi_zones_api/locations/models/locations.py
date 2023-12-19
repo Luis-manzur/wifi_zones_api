@@ -2,8 +2,10 @@
 
 # Django
 from django.db import models
+
 # Haversine
 from haversine import haversine, Unit
+
 # Smart Selects
 from smart_selects.db_fields import ChainedForeignKey
 
@@ -14,14 +16,11 @@ from wifi_zones_api.utils.models import WZModel
 
 
 class Location(WZModel):
-    BRANDS = [
-        ('RU', 'Ruijie'),
-        ('AL', 'Altai')
-    ]
+    BRANDS = [("RU", "Ruijie"), ("AL", "Altai")]
     name = models.CharField(max_length=60)
     image = models.ImageField(upload_to="locations/", null=True)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
-    brand = models.CharField(choices=BRANDS, default='RU', max_length=2)
+    brand = models.CharField(choices=BRANDS, default="RU", max_length=2)
     municipality = ChainedForeignKey(
         Municipality,
         chained_field="state",

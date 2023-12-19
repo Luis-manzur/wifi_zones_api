@@ -21,7 +21,13 @@ from wifi_zones_api.subscriptions.tasks import remind_near_billing_date, bill_su
 def charge_subscription(sender, instance: Subscription, created, **kwargs):
     if created:
         payment_description = f"{instance.start_date}  {instance.plan} plan subscription"
-        amount = instance.plan.monthly_price if instance.billing_period == "monthly" else instance.plan.yearly_price
+        amount = (
+            instance.plan.monthly_price
+            if instance.billing_period == "monthly"
+            else instance.plan.yearly_price
+            if instance.billing_period == "yearly"
+            else instance.plan.daily_price
+        )
         payment = Payment()
         payment.amount = amount
         payment.description = payment_description

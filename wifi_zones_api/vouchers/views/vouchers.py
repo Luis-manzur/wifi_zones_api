@@ -1,6 +1,7 @@
 """Vouchers views"""
 
 from drf_spectacular.utils import extend_schema
+
 # DRF
 from rest_framework import viewsets, mixins, status
 from rest_framework.response import Response
@@ -8,6 +9,7 @@ from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 
 # Models
 from wifi_zones_api.vouchers.models import Voucher
+
 # Serializers
 from wifi_zones_api.vouchers.serializers import VoucherCreateModelSerializer, VoucherResponseSerializer
 

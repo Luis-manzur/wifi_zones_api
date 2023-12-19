@@ -5,13 +5,16 @@ import random
 from datetime import date
 
 from django.core.exceptions import ObjectDoesNotExist
+
 # Django
 from django.utils.translation import gettext_lazy as _
+
 # Django REST Framework
 from rest_framework import serializers
 
 # Api Caller
 from wifi_zones_api.external_apis import ruijie
+
 # Models
 from wifi_zones_api.locations.models import Location
 from wifi_zones_api.subscriptions.models import Subscription
@@ -58,9 +61,9 @@ class VoucherCreateModelSerializer(serializers.Serializer):
             location: Location = self.context["location"]
             subscription: Subscription = self.context["subscription"]
             user: User = validated_data["user"]
-            voucher, created = Voucher.objects.get_or_create(user=user,
-                                                             location=location, date=date.today(),
-                                                             defaults={"connection_code": code})
+            voucher, created = Voucher.objects.get_or_create(
+                user=user, location=location, date=date.today(), defaults={"connection_code": code}
+            )
             if created:
                 if location.brand == "RU":
                     plans = ruijie.get_plans(location.external_id)
@@ -74,7 +77,7 @@ class VoucherCreateModelSerializer(serializers.Serializer):
                                 "lastName": user.last_name,
                                 "email": user.email,
                                 "phone": user.phone_number,
-                                "comment": ""
+                                "comment": "",
                             }
 
                             ruijie_voucher = ruijie.generate_voucher(data, location.external_id)
@@ -84,18 +87,12 @@ class VoucherCreateModelSerializer(serializers.Serializer):
                             voucher.connection_code = ruijie_voucher.get("codeNo")
                             voucher.save()
 
-                            return {
-                                "location": location.name,
-                                "connection_code": ruijie_voucher.get("codeNo")
-                            }
+                            return {"location": location.name, "connection_code": ruijie_voucher.get("codeNo")}
 
                     raise serializers.ValidationError(_("Error fetching plan data from AP."))
 
             else:
-                return {
-                    "location": location.name,
-                    "connection_code": voucher.connection_code
-                }
+                return {"location": location.name, "connection_code": voucher.connection_code}
         except:
             raise serializers.ValidationError(_("Error generating voucher."))
 

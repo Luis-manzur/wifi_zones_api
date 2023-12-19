@@ -17,7 +17,7 @@ def refresh_token() -> bool:
         params = {
             "appid": settings.RUIJIE_APP_ID,
             "secret": settings.RUIJIE_SECRET,
-            "access_token": actual_access_token
+            "access_token": actual_access_token,
         }
 
         result, status_code = api_get(url, params)

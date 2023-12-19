@@ -16,14 +16,12 @@ def generate_voucher(data, group_id) -> dict | None:
         actual_access_token = cache_data.get("access_token")
         url = f"{settings.RUIJIE_URL}/service/api/intlSamVoucher/create/{settings.RUIJIE_USER}/{settings.RUIJIE_USER}/{group_id}"
 
-        params = {
-            "access_token": actual_access_token
-        }
+        params = {"access_token": actual_access_token}
 
         result, status_code = api_post(url, data, params)
 
         if status_code == 200:
-            data = result['voucherData']['list'][0]
+            data = result["voucherData"]["list"][0]
 
             return data
         else:

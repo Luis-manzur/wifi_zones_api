@@ -1,11 +1,13 @@
 """Subscriptions Serializers."""
 # Django
 from django.utils.translation import gettext_lazy as _
+
 # Django REST Framework
 from rest_framework import serializers
 
 # Models
 from wifi_zones_api.subscriptions.models import Subscription, Plan
+
 # Serializers
 from wifi_zones_api.subscriptions.serializers.plans import PlanModelSerializer
 

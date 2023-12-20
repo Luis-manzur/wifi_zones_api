@@ -90,6 +90,11 @@ USER django
 
 RUN DATABASE_URL="" \
   CELERY_BROKER_URL="" \
+  RUIJIE_URL=""\
+  RUIJIE_APP_ID=""\
+  RUIJIE_SECRET=""\
+  RUIJIE_USER=""\
+  RUIJIE_PASSWORD=""\
   DJANGO_SETTINGS_MODULE="config.settings.test" \
   python manage.py compilemessages
 

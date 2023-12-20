@@ -6,10 +6,12 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.authtoken.views import obtain_auth_token
 
 from wifi_zones_api.utils.admin import admin_site
+from django.views.generic import RedirectView
 
 # API URLS
 urlpatterns = (
     [
+        path('', RedirectView.as_view(url='/docs')),
         path("admin/", admin_site.urls),
         re_path(r"^chaining/", include("smart_selects.urls")),
         # DRF auth token

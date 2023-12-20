@@ -305,7 +305,7 @@ SPECTACULAR_SETTINGS = {
 # URL
 URL = env(
     "CLIENT_URL",
-    default="api.wifizone.com",
+    default="ec2-54-205-106-112.compute-1.amazonaws.com",
 )
 # RUIJIE
 RUIJIE_URL = env("RUIJIE_URL")

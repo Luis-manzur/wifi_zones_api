@@ -33,7 +33,10 @@ def get_user_devices_tokens(user):
     return tokens
 
 
-def send_notification(title, msg, devices):
+def send_notification(title, msg, devices: list):
+    if devices is not []:
+        logging.info(f"No message send because there is no device")
+        return
     message = messaging.MulticastMessage(notification=messaging.Notification(title=title, body=msg), tokens=devices)
 
     response = messaging.send_each_for_multicast(message)

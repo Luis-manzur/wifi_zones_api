@@ -1,75 +1,90 @@
 log:
-    level: INFO
+  level: INFO
 
 entryPoints:
-    web:
-        # http
-        address: ":80"
-        http:
-            # https://docs.traefik.io/routing/entrypoints/#entrypoint
-            redirections:
-                entryPoint:
-                    to: web-secure
+  web:
+    # http
+    address: ':80'
+    http:
+      # https://docs.traefik.io/routing/entrypoints/#entrypoint
+      redirections:
+        entryPoint:
+          to: web-secure
 
-    web-secure:
-        # https
-        address: ":443"
+  web-secure:
+    # https
+    address: ':443'
 
-    flower:
-        address: ":5555"
+  flower:
+    address: ':5555'
 
 certificatesResolvers:
-    letsencrypt:
-        # https://docs.traefik.io/master/https/acme/#lets-encrypt
-        acme:
-            email: "luismanzur91@outlook.com"
-            storage: /etc/traefik/acme/acme.json
-            # https://docs.traefik.io/master/https/acme/#httpchallenge
-            httpChallenge:
-                entryPoint: web
+  letsencrypt:
+    # https://docs.traefik.io/master/https/acme/#lets-encrypt
+    acme:
+      email: 'luismanzur91@outlook.com'
+      storage: /etc/traefik/acme/acme.json
+      # https://docs.traefik.io/master/https/acme/#httpchallenge
+      httpChallenge:
+        entryPoint: web
 
 http:
-    routers:
-        web-secure-router:
-            rule: "Host(`wifi-zones-api.datinvoz.com`)"
-            entryPoints:
-                - web-secure
-            middlewares:
-                - csrf
-            service: django
-            tls:
-                # https://docs.traefik.io/master/routing/routers/#certresolver
-                certResolver: letsencrypt
+  routers:
+    web-secure-router:
+      rule: 'Host(`wifi-zones-api.datinvoz.com`)'
+      entryPoints:
+        - web-secure
+      middlewares:
+        - csrf
+      service: django
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
 
-        flower-secure-router:
-            rule: "Host(`wifi-zones-api.datinvoz.com`)"
-            entryPoints:
-                - flower
-            service: flower
-            tls:
-                # https://docs.traefik.io/master/routing/routers/#certresolver
-                certResolver: letsencrypt
+    flower-secure-router:
+      rule: 'Host(`wifi-zones-api.datinvoz.com`)'
+      entryPoints:
+        - flower
+      service: flower
+      tls:
+        # https://docs.traefik.io/master/routing/routers/#certresolver
+        certResolver: letsencrypt
 
-    middlewares:
-        csrf:
-            # https://docs.traefik.io/master/middlewares/headers/#hostsproxyheaders
-            # https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
-            headers:
-                hostsProxyHeaders: [ "X-CSRFToken" ]
+    web-media-router:
+      rule: 'Host(`wifi-zones-api.datinvoz.com`) && PathPrefix(`/media/`)'
+      entryPoints:
+        - web-secure
+      middlewares:
+        - csrf
+      service: django-media
+      tls:
+        certResolver: letsencrypt
 
-    services:
-        django:
-            loadBalancer:
-                servers:
-                    -   url: http://django:5000
+  middlewares:
+    csrf:
+      # https://docs.traefik.io/master/middlewares/headers/#hostsproxyheaders
+      # https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
+      headers:
+        hostsProxyHeaders: ['X-CSRFToken']
 
-        flower:
-            loadBalancer:
-                servers:
-                    -   url: http://flower:5555
+  services:
+    django:
+      loadBalancer:
+        servers:
+          - url: http://django:5000
+
+    flower:
+      loadBalancer:
+        servers:
+          - url: http://flower:5555
+
+    django-media:
+      loadBalancer:
+        servers:
+          - url: http://nginx:80
 
 providers:
-    # https://docs.traefik.io/master/providers/file/
-    file:
-        filename: /etc/traefik/traefik.yml
-        watch: true
+  # https://docs.traefik.io/master/providers/file/
+  file:
+    filename: /etc/traefik/traefik.yml
+    watch: true

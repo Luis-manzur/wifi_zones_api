@@ -4,11 +4,11 @@ from django.apps import AppConfig
 from django.utils.translation import gettext_lazy as _
 
 from wifi_zones_api.external_apis.ruijie import login
-from django.conf import settings
+from config.settings.base import env
 
 logger = logging.getLogger("console")
 
-settings_file = settings.env('DJANGO_SETTINGS_MODULE')
+settings_file = env('DJANGO_SETTINGS_MODULE')
 class ExternalAPISConfig(AppConfig):
     name = "wifi_zones_api.external_apis"
     verbose_name = _("External API'S")

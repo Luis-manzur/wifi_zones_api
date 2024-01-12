@@ -15,16 +15,20 @@ confirmation_inline_serializer = inline_serializer(
     fields={"code": serializers.IntegerField(default=200), "Refpk": serializers.CharField()},
 )
 
+# Permissions
+from wifi_zones_api.operations.permissions import HasPagoMovilPermission
+
 
 class PagoMovilViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
     serializer_class = PagoMovilCreateModelSerializer
     queryset = PagoMovil.objects.all()
+    permission_classes = [HasPagoMovilPermission]
 
     @extend_schema(
-        responses={201: confirmation_inline_serializer},
+        responses={200: confirmation_inline_serializer},
     )
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer_class()(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.save()
-        return Response({"code": 200, "Refpk": data["Refpk"]}, status=201)
+        return Response({"code": 200, "Refpk": data["Refpk"]}, status=200)

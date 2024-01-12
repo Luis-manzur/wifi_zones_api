@@ -31,7 +31,7 @@ def add_user_balance(sender, instance: Recharge, created, **kwargs):
         tokens = []
         for device in devices:
             tokens.append(device)
-        send_notification("Recarga", f"Recarga exitosa por {instance.amount}", tokens)
+        send_notification("Recarga", f"Recarga exitosa por BS.{instance.amount}", tokens)
 
 
 @receiver(post_save, sender=Payment)
@@ -58,7 +58,7 @@ def make_transfer(sender, instance: Transfer, created, **kwargs):
         tokens = []
         for device in devices:
             tokens.append(device)
-        send_notification("Transferencia", f"Has recibido una transferencia de {sender} por {instance.amount}", tokens)
+        send_notification("Transferencia", f"Has recibido una transferencia de {sender} por BS.{instance.amount}", tokens)
 
 
 @receiver(post_save, sender=Operation)

@@ -2,6 +2,7 @@
 # DRF
 from drf_spectacular.utils import inline_serializer, extend_schema
 from rest_framework import viewsets, mixins, serializers
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 # Models
@@ -22,7 +23,11 @@ from wifi_zones_api.operations.permissions import HasPagoMovilPermission
 class PagoMovilViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
     serializer_class = PagoMovilCreateModelSerializer
     queryset = PagoMovil.objects.all()
-    permission_classes = [HasPagoMovilPermission]
+
+    def get_permissions(self):
+        """Assign permissions based on action."""
+        permissions = [HasPagoMovilPermission, IsAuthenticated]
+        return [p() for p in permissions]
 
     @extend_schema(
         responses={200: confirmation_inline_serializer},

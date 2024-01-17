@@ -10,4 +10,4 @@ class HasPagoMovilPermission(BasePermission):
 
     def has_permission(self, request, view):
         """Check obj and user are the same."""
-        return request.user.has_perm('can_do_pago_movil_permission')
+        return request.user.has_perm('auth.can_do_pago_movil_permission')

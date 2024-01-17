@@ -282,6 +282,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.TokenAuthentication",
         "wifi_zones_api.utils.authentication.BearerTokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication"
     ),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
@@ -303,6 +304,7 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "Wifi zones API",
     "DESCRIPTION": "Documentation of API endpoints of Wifi zones",
     "VERSION": "1.0.0",
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
 }
 # Your stuff...
 # ------------------------------------------------------------------------------

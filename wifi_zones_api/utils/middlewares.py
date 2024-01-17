@@ -14,7 +14,7 @@ class IPRestrictionMiddleware:
 
     def __call__(self, request):
         if request.path in self.target_urls:
-            if request.META.get('REMOTE_ADDR') != self.allowed_ip:
+            if request.META.get('HTTP_X_REAL_IP') != self.allowed_ip:
                 return HttpResponseForbidden("Access denied")
         response = self.get_response(request)
         return response

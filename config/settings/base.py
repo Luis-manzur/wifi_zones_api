@@ -129,6 +129,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "wifi_zones_api.utils.middlewares.IPRestrictionMiddleware",
 ]
 
 # STATIC
@@ -313,3 +314,5 @@ RUIJIE_APP_ID = env("RUIJIE_APP_ID")
 RUIJIE_SECRET = env("RUIJIE_SECRET")
 RUIJIE_USER = env("RUIJIE_USER")
 RUIJIE_PASSWORD = env("RUIJIE_PASSWORD")
+
+ALLOWED_PM_IP = env("ALLOWED_IPS", default="127.0.0.1")

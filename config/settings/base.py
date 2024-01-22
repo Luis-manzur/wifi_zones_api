@@ -69,6 +69,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "django_celery_beat",
     "rest_framework",
+    "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
     "smart_selects",
@@ -336,4 +337,6 @@ JAZZMIN_SETTINGS = {
 
     'site_logo': 'images/favicons/colmena.png',
     'login_logo': 'images/favicons/colmena.png',
+    "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
+    # Add a language dropdown into the admin
 }

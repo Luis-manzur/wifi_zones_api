@@ -57,10 +57,10 @@ WSGI_APPLICATION = "config.wsgi.application"
 # APPS
 # ------------------------------------------------------------------------------
 DJANGO_APPS = [
+    "jazzmin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
-    "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
@@ -69,7 +69,6 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "django_celery_beat",
     "rest_framework",
-    "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
     "smart_selects",
@@ -321,3 +320,20 @@ RUIJIE_USER = env("RUIJIE_USER")
 RUIJIE_PASSWORD = env("RUIJIE_PASSWORD")
 
 ALLOWED_PM_IP = env("ALLOWED_IPS", default="127.0.0.1")
+
+
+JAZZMIN_SETTINGS = {
+    # title of the window (Will default to current_admin_site.site_title if absent or None)
+    'site_title': 'Datinvoz App',
+
+    # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    'site_header': 'Datinvoz App',
+
+    # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    'site_brand': 'Datinvoz App',
+
+    'welcome_sign': 'Welcome to Datinvoz admin panel.',
+
+    'site_logo': 'images/favicons/colmena.png',
+    'login_logo': 'images/favicons/colmena.png',
+}

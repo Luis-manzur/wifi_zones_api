@@ -95,6 +95,7 @@ RUN DATABASE_URL="" \
   RUIJIE_SECRET=""\
   RUIJIE_USER=""\
   RUIJIE_PASSWORD=""\
+  EXCHANGERATE_API_KEY=""\
   DJANGO_SETTINGS_MODULE="config.settings.test" \
   python manage.py compilemessages
 

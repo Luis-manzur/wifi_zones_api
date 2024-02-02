@@ -33,7 +33,7 @@ class PlanModelSerializer(serializers.ModelSerializer):
 
     monthly_price = serializers.SerializerMethodField()
     yearly_price = serializers.SerializerMethodField()
-    dayly_price = serializers.SerializerMethodField()
+    daily_price = serializers.SerializerMethodField()
 
     def get_monthly_price(self, obj):
         exchange_rate = cache.get('exchange_rate')

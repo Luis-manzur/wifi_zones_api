@@ -340,3 +340,6 @@ JAZZMIN_SETTINGS = {
     "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
     # Add a language dropdown into the admin
 }
+
+# EXCHANGE RATE API
+EXCHANGERATE_API_KEY = env("EXCHANGERATE_API_KEY")

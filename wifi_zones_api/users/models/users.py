@@ -23,10 +23,10 @@ class User(AbstractUser):
         regex=r"\+?1?\d{9,15}$",
         message=_("Phone number must be entered in the format: +999999999. Up to 15 digits allowed."),
     )
-    phone_number = models.CharField(validators=[phone_regex], max_length=17, unique=True, db_index=True)
+    phone_number = models.CharField(validators=[phone_regex], max_length=17, unique=True, db_index=True, help_text="Example: +584121234567")
 
     id_number_regex = RegexValidator(regex=r"^[V|E|J|P|G][0-9]{8}$", message=_("Invalid CI."))
-    id_number = models.CharField(validators=[id_number_regex], max_length=9, unique=True)
+    id_number = models.CharField(validators=[id_number_regex], max_length=9, unique=True, null=False, db_index=True, help_text=_("DNI number"))
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name", "password", "phone_number"]

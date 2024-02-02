@@ -32,7 +32,7 @@ class Location(WZModel):
     address = models.CharField(max_length=60)
     long = models.DecimalField(max_digits=8, decimal_places=5, verbose_name="longitude")
     lat = models.DecimalField(max_digits=8, decimal_places=5, verbose_name="latitude")
-    external_id = models.IntegerField()
+    external_id = models.IntegerField(help_text="Ruijie or Altai building id")
 
     def __str__(self):
         """Return name str representation."""

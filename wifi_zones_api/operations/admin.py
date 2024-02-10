@@ -1,24 +1,15 @@
-"""Subscription admin panel"""
+"""Operations admin panel"""
 # Django
 from django.contrib import admin
 import csv
 from django.http import HttpResponse
 
 # models
-from wifi_zones_api.subscriptions.models import Plan, Subscription
-
-
-class PlanAdmin(admin.ModelAdmin):
-    list_display = ("pk", "name", "monthly_price")
-    search_fields = ("name",)
-    list_filter = ("monthly_price",)
-
-
-admin.site.register(Plan, PlanAdmin)
+from wifi_zones_api.operations.models import Operation
 
 def export_to_csv(modeladmin, request, queryset):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="subscription.csv"'
+    response['Content-Disposition'] = 'attachment; filename="operations.csv"'
 
     writer = csv.writer(response)
     writer.writerow([field.name for field in modeladmin.model._meta.fields])
@@ -28,9 +19,9 @@ def export_to_csv(modeladmin, request, queryset):
 
     return response
 
-class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = ("pk", "user",  "plan", "billing_period", "auto_renew")
-    list_filter = ("plan", "auto_renew", "billing_period", "created")
+class OperationAdmin(admin.ModelAdmin):
+    list_display = ("pk", "user",  "operation_type", "code")
+    list_filter = ("user", "operation_type", "created")
     actions = [export_to_csv]
 
     def has_add_permission(self, request):
@@ -42,4 +33,4 @@ class SubscriptionAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None):
         return False
 
-admin.site.register(Subscription, SubscriptionAdmin)
+admin.site.register(Operation, OperationAdmin)

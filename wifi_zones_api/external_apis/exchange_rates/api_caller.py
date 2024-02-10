@@ -14,5 +14,5 @@ def get_exchange_rates():
     if status_code == 200:
         conversion_rates = data.get('conversion_rates')
         ves = conversion_rates.get('VES')
-        cache.set('exchange_rate', ves)
+        cache.set('exchange_rate', ves, timeout=None)
 

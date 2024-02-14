@@ -133,6 +133,8 @@ class UserLoginSerializer(serializers.Serializer):
             raise serializers.ValidationError(_("Invalid credentials"))
         if not user.is_verified:
             raise serializers.ValidationError(_("Account is not active yet :("))
+        if not user.is_client:
+            raise serializers.ValidationError(_("Account is not client."))
         self.context["user"] = user
         return data
 

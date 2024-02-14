@@ -168,3 +168,6 @@ msgstr "No tienes ninguna subscripción activa."
 msgid "Error generating connection code."
 msgstr "Error generando el código de conexión."
 
+msgid "Account is not client."
+msgstr "La cuenta no es de tipo cliente."
+

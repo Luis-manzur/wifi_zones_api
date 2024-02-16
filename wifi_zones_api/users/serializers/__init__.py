@@ -9,4 +9,5 @@ from .users import (
     PasswordResetSerializer,
     UserBalanceSerializer,
     UserLookUpSerializer,
+    UserUpdateModelSerializer,
 )

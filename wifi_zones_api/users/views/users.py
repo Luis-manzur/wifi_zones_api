@@ -32,6 +32,7 @@ from wifi_zones_api.users.serializers import (
     PasswordResetSerializer,
     UserBalanceSerializer,
     UserLookUpSerializer,
+    UserUpdateModelSerializer,
 )
 from wifi_zones_api.users.serializers.profiles import ProfileModelSerializer
 
@@ -79,6 +80,8 @@ class UserViewSet(
             return UserBalanceSerializer
         elif self.action == "list":
             return UserLookUpSerializer
+        elif self.action in ["update", "partial_update"]:
+            return UserUpdateModelSerializer
         else:
             return UserModelSerializer
 

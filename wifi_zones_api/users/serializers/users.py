@@ -40,6 +40,18 @@ class UserModelSerializer(serializers.ModelSerializer):
         model = User
         fields = ("first_name", "last_name", "email", "phone_number", "profile", "username", "id_number", "balance")
 
+class UserUpdateModelSerializer(serializers.ModelSerializer):
+    """User model serializer."""
+
+    profile = ProfileModelSerializer(read_only=True)
+    username = serializers.CharField(read_only=True)
+    email = serializers.CharField(read_only=True)
+
+    class Meta:
+        """Meta class."""
+
+        model = User
+        fields = ("first_name", "last_name", "email", "phone_number", "profile", "username", "id_number")
 
 class UserSignUpSerializer(serializers.Serializer):
     """User sign up serializer.

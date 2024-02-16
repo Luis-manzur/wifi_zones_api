@@ -33,33 +33,38 @@ def bill_subscription(user_id, subscription_id):
     user = User.objects.get(pk=user_id)
     current_subscription: Subscription = Subscription.objects.get(pk=subscription_id)
 
-    if current_subscription.status != "active" or not current_subscription.auto_renew:
+    if current_subscription.status != "active":
         return
 
-    plan = current_subscription.plan
+    current_subscription.status = "expired"
+    current_subscription.save()
 
-    insufficient_funds = False
+    if current_subscription.auto_renew:
+        plan = current_subscription.plan
 
-    if current_subscription.billing_period == "monthly":
-        if plan.monthly_price > user.balance:
-            insufficient_funds = True
+        insufficient_funds = False
 
-    if current_subscription.billing_period == "yearly":
-        if plan.yearly_price > user.balance:
-            insufficient_funds = True
+        if current_subscription.billing_period == "monthly":
+            if plan.monthly_price > user.balance:
+                insufficient_funds = True
 
-    if current_subscription.billing_period == "daily":
-        if plan.daily_price > user.balance:
-            insufficient_funds = True
+        if current_subscription.billing_period == "yearly":
+            if plan.yearly_price > user.balance:
+                insufficient_funds = True
 
-    if insufficient_funds:
+        if current_subscription.billing_period == "daily":
+            if plan.daily_price > user.balance:
+                insufficient_funds = True
+
+        if insufficient_funds:
+            tokens = get_user_devices_tokens(user)
+            send_notification("Subscripción cancelada", f"Fondos insuficientes.", tokens)
+            return
+
+        subscription = Subscription(user=user, plan=plan, billing_period=current_subscription.billing_period)
+        subscription.save()
         tokens = get_user_devices_tokens(user)
-        send_notification("Subscripción cancelada", f"Fondos insuficientes.", tokens)
-        return
-
-    Subscription(user=user, plan=plan, billing_period=current_subscription.billing_period)
-    tokens = get_user_devices_tokens(user)
-    send_notification("Subscripción renovada", f"Tu plan {plan.name} ha sido renovado.", tokens)
+        send_notification("Subscripción renovada", f"Tu plan {plan.name} ha sido renovado.", tokens)
 
 
 @shared_task()

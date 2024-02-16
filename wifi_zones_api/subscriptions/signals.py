@@ -53,6 +53,8 @@ def auto_renew_subscription(sender, instance: Subscription, created, **kwargs):
         elif instance.billing_period == "yearly":
             eta = datetime.now() + relativedelta(years=1)
         else:
+            eta = datetime.now() + relativedelta(days=1)
+            bill_subscription.apply_async(args=(instance.user.id, instance.id), eta=eta)
             return
         remind_near_billing_date.apply_async(args=(instance.user.id, instance.id), eta=eta - timedelta(days=3))
 

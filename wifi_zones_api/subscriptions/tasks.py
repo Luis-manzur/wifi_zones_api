@@ -1,5 +1,6 @@
 """Subscription tasks"""
-
+# Utilities
+from decimal import Decimal
 # Celery
 from celery import shared_task
 
@@ -7,6 +8,7 @@ from celery import shared_task
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+from django.core.cache import cache
 
 # Models
 from wifi_zones_api.subscriptions.models import Subscription
@@ -32,6 +34,7 @@ def remind_near_billing_date(user_id, subscription_id):
 def bill_subscription(user_id, subscription_id):
     user = User.objects.get(pk=user_id)
     current_subscription: Subscription = Subscription.objects.get(pk=subscription_id)
+    exchange_rate = cache.get('exchange_rate')
 
     if current_subscription.status != "active":
         return
@@ -45,15 +48,15 @@ def bill_subscription(user_id, subscription_id):
         insufficient_funds = False
 
         if current_subscription.billing_period == "monthly":
-            if plan.monthly_price > user.balance:
+            if plan.monthly_price * Decimal(str(exchange_rate)) > user.balance:
                 insufficient_funds = True
 
         if current_subscription.billing_period == "yearly":
-            if plan.yearly_price > user.balance:
+            if plan.yearly_price * Decimal(str(exchange_rate))> user.balance:
                 insufficient_funds = True
 
         if current_subscription.billing_period == "daily":
-            if plan.daily_price > user.balance:
+            if plan.daily_price * Decimal(str(exchange_rate))> user.balance:
                 insufficient_funds = True
 
         if insufficient_funds:

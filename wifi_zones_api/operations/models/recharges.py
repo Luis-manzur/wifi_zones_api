@@ -34,7 +34,7 @@ class PagoMovil(WZModel):
     origin_phone_number = models.CharField()
     recipient_phone_number = models.CharField()
     status = models.CharField(max_length=10)
-    description = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, blank=True)
     ref_pk = models.CharField(max_length=100, unique=True)
 
     bank = models.CharField(max_length=4, choices=BANKS, default="0172")

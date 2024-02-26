@@ -6,6 +6,7 @@ from django.core.cache import cache
 
 # Api Caller
 from wifi_zones_api.external_apis.api_caller import api_get
+from wifi_zones_api.external_apis.ruijie.login import login
 
 
 def refresh_token() -> bool:
@@ -32,5 +33,7 @@ def refresh_token() -> bool:
             cache.set("ruijie_account", data, timeout=None)
 
             return True
+        else:
+            return login()
 
     return False
